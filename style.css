@@ -53,13 +53,28 @@ main {
 
 }
 
-main h1 {
+.boas_vindas {
+    margin-bottom: 40px;
+}
+
+.boas_vindas h1 {
     font-size: 40px;
     font-weight: 300;
     color: #313e51 ;
+    margin-bottom: 16px;
 }
 
+.boas_vindas h1 strong {
+    font-weight: 500;
 
+}
+
+.boas_vindas p {
+    color: #626c7f;
+    font-size: 14px;
+    line-height: 150% ;
+    font-style: italic;
+}
 
 .assuntos img {
     max-width:30px;
