@@ -6,6 +6,20 @@
     -webkit-font-smoothing: antialiased;
 }
 
+:root {
+    --bg-color: #f4f6fa;
+    --purple: #a729f5;
+    --primary-text-color: #313e51;
+    --secondary-text-color:  #626c7f;
+    --button-bg: #fff;
+    --shadow: 0px 16px 40px 0px rgba(143, 168, 193, 0.14);
+    --bg-botao1: #fff1e9;
+    --bg-botao2: #e8fdef;
+    --bg-botao3: #ebf0ff;
+    --white: #fff;
+    --bg-mobile: url(.assets/images/pattern-background-mobile-light.svg); 
+}
+
 
 body {
     height: 100svh;
@@ -35,14 +49,14 @@ header {
 .tema button {
     height: 20px;
     width: 32px;
-    background: #a254d3;
+    background: var(--purple);
     border: 0;
     border-radius: 999px;
     padding: 4px;
 }
 
 .tema button div {
-    background: white;
+    background: var(--white);
     width: 12px;
     height: 12px;
     border-radius: 999px;
@@ -60,7 +74,7 @@ main {
 .boas_vindas h1 {
     font-size: 40px;
     font-weight: 300;
-    color: #313e51 ;
+    color: var(--primary-text-color);
     margin-bottom: 16px;
 }
 
@@ -70,10 +84,40 @@ main {
 }
 
 .boas_vindas p {
-    color: #626c7f;
+    color: var(--secondary-text-color);
     font-size: 14px;
     line-height: 150% ;
     font-style: italic;
+}
+
+.assuntos {
+    border: 1px solid red;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.assuntos button {
+    border: none;
+    background: var(--button-bg);
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    padding: 12px;
+    border-radius: 12px;
+    box-shadow: var(--shadow) 
+}
+
+.botao_facil div {
+    background: var(--bg-botao1);
+}
+
+.botao_facil div {
+    background: var(--bg-botao2);
+}
+
+.botao_facil div {
+    background: var(--bg-botao3);
 }
 
 .assuntos img {
