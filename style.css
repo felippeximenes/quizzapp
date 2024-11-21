@@ -13,11 +13,12 @@
     --secondary-text-color:  #626c7f;
     --button-bg: #fff;
     --shadow: 0px 16px 40px 0px rgba(143, 168, 193, 0.14);
-    --bg-botao1: #fff1e9;
-    --bg-botao2: #e8fdef;
-    --bg-botao3: #ebf0ff;
+    --bg-botao1: #418bc863;
+    --bg-botao2: #fde56f67;
+    --bg-botao3: #6fbc6267;
     --white: #fff;
-    --bg-mobile: url(.assets/images/pattern-background-mobile-light.svg); 
+    --bg-mobile: url(.assets/images/pattern-background-mobile-light.svg);
+    --bg-desktop: url(.assets/images/pattern-background-desktop-light.svg);  
 }
 
 
@@ -124,11 +125,11 @@ main {
     background: var(--bg-botao1);
 }
 
-.botao_facil div {
+.botao_medio div {
     background: var(--bg-botao2);
 }
 
-.botao_facil div {
+.botao_dificil div {
     background: var(--bg-botao3);
 }
 
@@ -137,5 +138,56 @@ main {
     max-height:30px;
     width: auto;
     height: auto;
+    margin-top: 25%;
 }
 
+@media(min-width: 1100px) {
+    body {
+        background: var(--bg-mobile) var(--bg-color);
+        background-size: cover;
+        background-repeat: no-repeat; 
+    }
+
+    header {
+        margin-block: 81px;
+    }
+
+    main {
+        display: flex;
+        max-width: 1160px;
+        margin-inline: auto;
+    }
+
+    section {
+        width: 100%;
+    }
+
+    .boas_vindas h1 {
+        font-size: 64px;
+        margin-bottom: 48px;
+    }
+
+    .boas_vindas p {
+        font-size: 20px;
+    }
+
+    .assuntos {
+        gap: 24px;
+    }
+
+    .assuntos button {
+        font-size: 28px;
+        padding: 20px;
+        gap: 32px;
+    }
+
+    .assuntos button div {
+        width: 56px;
+        height: 65px;
+        padding: 8px;
+    }
+
+
+
+
+}
