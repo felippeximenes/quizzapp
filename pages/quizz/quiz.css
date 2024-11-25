@@ -164,6 +164,24 @@ main {
     }
 }
 
+.alternativas label#correta {
+    outline: 3px solid var(--green);
+
+    & span {
+        background: var(--green);
+        color: var(--white);
+    }
+}
+
+.alternativas label#errada{
+    outline: 3px solid var(--red);
+
+    & span {
+        background-color: var(--red);
+        color: var(--white);
+    }
+}
+
 .alternativas div span {
     display: block;
     width: 40px;
@@ -197,10 +215,14 @@ main {
 
     font-size: 18px;
     font-weight: 500;
-
+    margin-top: 2%;
 }
 
 @media(min-width: 1100px) {
+    header {
+        margin-block: 81px;
+    }
+
     .tema {
         gap: 16px;
     }
