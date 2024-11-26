@@ -9,6 +9,8 @@
 
 :root {
     --bg-color: #f4f6fa;
+    --bg-span: #f4f6fa;
+    --color-span: #626c7f; 
     --purple: #a729f5;
     --purple-hover: rgb(167, 41, 245, 0.7);
     --primary-text-color: #313e51;
@@ -27,6 +29,7 @@
 
 body.dark {
     --bg-color: #313e51;
+    --color-span: #313e51;
     --bg-mobile: url(../../.assets/images/pattern-background-mobile-dark.svg);
     --bg-desktop: url(../../.assets/images/pattern-background-desktop-dark.svg);
     --primary-text-color: #fff;
@@ -69,7 +72,7 @@ header {
 .assunto h1 {
     font-size: 18px;
     font-weight: 500;
-    color: var (--primary-text-color);
+    color: var(--primary-text-color);
 }
 
 .tema {
@@ -111,20 +114,20 @@ main {
 .pergunta p {
     font-style: italic;
     font-size: 14px;
-    color: var (--secondary-text-color);
+    color: var(--primary-text-color);
     margin-bottom: 12px;
 }
 
 .pergunta h2 {
     font-size: 20px;
     font-weight: 500;
-    color: var (--primary-text-color);
+    color: var(--primary-text-color);
     line-height: 24px;
     margin-bottom: 24px;
 }
 
 .barra_progresso {
-    background: white;
+    background: var(--button-bg);
     height: 16px;
     padding: 4px;
     border-radius: 999px;
@@ -195,12 +198,14 @@ main {
     display: block;
     width: 40px;
     height: 40px;
-    background: var(--bg-color);
+    background: var(--bg-span);
     border-radius: 5px;
-    color: var(--secondary-text-color);
+    color: var(--color-span);
+
     display: flex;
     align-items: center;
     justify-content: center;
+    flex-shrink: 0;
 }
 
 .alternativas div {
