@@ -21,7 +21,7 @@
     --bg-desktop: url(.assets/images/pattern-background-desktop-light.svg);  
 }
 
-body.dark {
+body.escuro {
     --bg-color: #313e51;
     --bg-mobile: url(.assets/images/pattern-background-mobile-dark.svg);
     --bg-desktop: url(.assets/images/pattern-background-desktop-dark.svg);
