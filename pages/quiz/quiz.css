@@ -17,9 +17,9 @@
     --secondary-text-color:  #626c7f;
     --button-bg: #fff;
     --shadow: 0px 16px 40px 0px rgba(143, 168, 193, 0.14);
-    --bg-botao1: #418bc863;
-    --bg-botao2: #fde56f67;
-    --bg-botao3: #6fbc6267;
+    --bg-facil: #418bc863;
+    --bg-medio: #fde56f67;
+    --bg-dificil: #6fbc6267;
     --white: #fff;
     --green: #26d782;
     --red: #ee5454;
@@ -64,6 +64,20 @@ header {
     padding: 5px;
     border-radius: 5px;
 }
+
+.assunto_icone.facil {
+    background: var(--bg-facil);
+}
+
+.assunto_icone.medio{
+    background: var(--bg-medio);
+}
+
+.assunto_icone.dificil {
+    background: var(--bg-dificil);
+}
+
+
 
 .assunto_icone img {
     width: 100%;

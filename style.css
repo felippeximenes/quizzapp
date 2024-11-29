@@ -13,9 +13,9 @@
     --secondary-text-color:  #626c7f;
     --button-bg: #fff;
     --shadow: 0px 16px 40px 0px rgba(143, 168, 193, 0.14);
-    --bg-botao1: #418bc863;
-    --bg-botao2: #fde56f67;
-    --bg-botao3: #6fbc6267;
+    --bg-facil: #418bc863;
+    --bg-medio: #fde56f67;
+    --bg-dificil: #6fbc6267;
     --white: #fff;
     --bg-mobile: url(.assets/images/pattern-background-mobile-light.svg);
     --bg-desktop: url(.assets/images/pattern-background-desktop-light.svg);  
@@ -137,15 +137,15 @@ main {
 
 
 .botao_facil div {
-    background: var(--bg-botao1);
+    background: var(--bg-facil);
 }
 
 .botao_medio div {
-    background: var(--bg-botao2);
+    background: var(--bg-medio);
 }
 
 .botao_dificil div {
-    background: var(--bg-botao3);
+    background: var(--bg-dificil);
 }
 
 .assuntos img {
