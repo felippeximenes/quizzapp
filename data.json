@@ -1,428 +1,323 @@
 {
     "quizzes": [
         {
-            "title": "HTML",
+            "title": "Fácil",
             "icon": "../../assets/images/icon-html.svg",
             "questions": [
                 {
-                    "question": "Qual o significado de HTML?",
+                    "question": "What is the capital of Japan??",
                     "options": [
-                        "Hyper Trainer Marking Language",
-                        "Hyper Text Marketing Language",
-                        "Hyper Text Markup Language",
-                        "Hyper Text Markup Leveler"
+                        "Beijing",
+                        "Tokyo",
+                        "Seoul",
+                        "Bangkok"
                     ],
-                    "answer": "Hyper Text Markup Language"
+                    "answer": "Tokyo"
                 },
                 {
-                    "question": "Qual das alternativas abaixo mostra a estrutura correta de um documento HTML?",
+                    "question": "How many days are there in a leap year?",
                     "options": [
-                        "<html><head></head><body></body></html>",
-                        "<head><html></html><body></body></head>",
-                        "<body><head></head><html></html></body>",
-                        "<html><body></body><head></head></html>"
+                        "365",
+                        "366",
+                        "367",
+                        "368"
                     ],
-                    "answer": "<html><head></head><body></body></html>"
+                    "answer": "366"
                 },
                 {
-                    "question": "Qual dos elementos abaixo e responsável pelo título do documento?",
+                    "question": "What is the largest animal in the world?",
                     "options": [
-                        "<head>",
-                        "<title>",
-                        "<header>",
-                        "<top>"
+                        "Elephant",
+                        "Blue Whale",
+                        "Giraffe",
+                        "Hippopotamus"
                     ],
-                    "answer": "<title>"
+                    "answer": "Blue Whale"
                 },
                 {
-                    "question": "Qual é a função da tag <body> no HTML?",
+                    "question": "Which planet is known as the Red Planet?",
                     "options": [
-                        "Define o cabeçalho da página.",
-                        "Contém todo o conteúdo como textos, imagens e links.",
-                        "Utilizada para definir o conteúdo principal da página.",
-                        "Define o corpo de um elemento de email no HTML."
+                        "Earth",
+                        "Mars",
+                        "Jupiter",
+                        "Venus"
                     ],
-                    "answer": "Contém todo o conteúdo como textos, imagens e links."
+                    "answer": "Mars"
                 },
                 {
-                    "question": "Qual das tags abaixo é usada para criar hyperlinks (âncoras)?",
+                    "question": "Who wrote the book Harry Potter?",
                     "options": [
-                        "<hyperlink>",
-                        "<link>",
-                        "<a>",
-                        "<href>"
+                        "J.R.R. Tolkien",
+                        "George R.R. Martin",
+                        "J.K. Rowling",
+                        "Suzanne Collins"
                     ],
-                    "answer": "<a>"
+                    "answer": "J.K. Rowling"
                 },
                 {
-                    "question": "Qual das tags é usada para mostrar imagens no HTML?",
+                    "question": "What is the main ingredient in guacamole?",
                     "options": [
-                        "<img>",
-                        "<image>",
-                        "<src>",
-                        "<pic>"
+                        "Tomato",
+                        "Avocado",
+                        "Onion",
+                        "Pepper"
                     ],
-                    "answer": "<img>"
+                    "answer": "Avocado"
                 },
                 {
-                    "question": "Qual atributo é utilizado para indicar o caminho (fonte) de uma tag <img>?",
+                    "question": "How many continents are there on Earth??",
                     "options": [
-                        "link",
-                        "src",
-                        "href",
-                        "url"
+                        "5",
+                        "6",
+                        "7",
+                        "8"
                     ],
-                    "answer": "src"
+                    "answer": "7"
                 },
                 {
-                    "question": "Qual tag HTML é usada para criar uma lista não ordenada?",
+                    "question": "What color are the stars on the flag of the United States?",
                     "options": [
-                        "<ul>",
-                        "<ol>",
-                        "<list>",
-                        "<li>"
+                        "Red",
+                        "White",
+                        "Blue",
+                        "Yellow"
                     ],
-                    "answer": "<ul>"
+                    "answer": "White"
                 },
                 {
-                    "question": "O que faz a tag <br>?",
+                    "question": "What is the chemical symbol for water?",
                     "options": [
-                        "Quebra o texto em duas seções.",
-                        "Deixa o texto em negrito.",
-                        "Insere uma quebra de linha.",
-                        "Adiciona uma nova linha na tabela."
+                        "H2O",
+                        "CO2",
+                        "O2",
+                        "H2"
                     ],
-                    "answer": "Insere uma quebra de linha."
+                    "answer": "H2O"
                 },
                 {
-                    "question": "No HTML, o que faz a tag `fieldset`?",
+                    "question": "What is the smallest prime number?",
                     "options": [
-                        "É usada para agrupar informações relacionadas de um formulário.",
-                        "Define um tamanho fixo para o formulário.",
-                        "Faz a verificação automática das respostas do formulário.",
-                        "Esconde os campos de um formulário."
+                        "0",
+                        "1",
+                        "2",
+                        "3"
                     ],
-                    "answer": "É usada para agrupar informações relacionadas de um formulário."
+                    "answer": "2"
                 }
             ]
         },
         {
-            "title": "CSS",
+            "title": "Médio",
             "icon": "../../assets/images/icon-css.svg",
             "questions": [
                 {
-                    "question": "Qual o significado de CSS?",
+                    "question": "Which of the following sentences is grammatically correct?",
                     "options": [
-                        "Colorful Style Sheets",
-                        "Computer Style Sheets",
-                        "Cascading Style Sheets",
-                        "Creative Style Sheets"
+                        "She don't like apples.",
+                        "She doesn't likes apples.",
+                        "She don't likes apples.",
+                        "She doesn't like apples."
                     ],
-                    "answer": "Cascading Style Sheets"
+                    "answer": "She doesn't like apples."
                 },
                 {
-                    "question": "Qual atributo HTML é utilizado para escrever inline CSS?",
+                    "question": "What is the synonym of abundant?",
                     "options": [
-                        "styles",
-                        "style",
-                        "class",
-                        "font-style"
+                        "Scarce",
+                        "Plentiful",
+                        "Small",
+                        "Insufficient"
                     ],
-                    "answer": "style"
+                    "answer": "Plentiful"
                 },
                 {
-                    "question": "Como inserir um comentário no CSS?",
+                    "question": "Choose the correct form of the verb: Neither of the options ____ acceptable.",
                     "options": [
-                        "// sou um comentário //",
-                        "/* sou um comentário */",
-                        "-- sou um comentário --",
-                        "<!-- sou um comentário -->"
+                        "are",
+                        "be",
+                        "were",
+                        "is"
                     ],
-                    "answer": "/* sou um comentário */"
+                    "answer": "is"
                 },
                 {
-                    "question": "Qual propriedade é utilizada para mudar a cor de fundo de um elemento?",
+                    "question": "In which year did the World War II end?",
                     "options": [
-                        "color",
-                        "bgcolor",
-                        "background-color",
-                        "background"
+                        "1945",
+                        "1946",
+                        "1944",
+                        "1943"
                     ],
-                    "answer": "background-color"
+                    "answer": "1945"
                 },
                 {
-                    "question": "Com estilizar todos os <p> ao mesmo tempo?",
+                    "question": "Identify the part of speech of the underlined word in the following sentence: She runs very quickly.",
                     "options": [
-                        "p { }",
-                        ".p { }",
-                        "#p { }",
-                        "all.p { }"
+                        "Noun",
+                        "Adjective",
+                        "Verb",
+                        "Adverb"
                     ],
-                    "answer": "p { }"
+                    "answer": "Adverb"
                 },
                 {
-                    "question": "Qual propriedade é utilizada para mudar a fonte do elemento?",
+                    "question": "Which one of the following is the largest ocean in the world?",
                     "options": [
-                        "font-style",
-                        "text-style",
-                        "font-family",
-                        "typeface"
+                        "Atlantic Ocean",
+                        "Indian Ocean",
+                        "Arctic Ocean",
+                        "Pacific Ocean"
                     ],
-                    "answer": "font-family"
+                    "answer": "Pacific Ocean"
                 },
                 {
-                    "question": "Como fazer com que todas as palavras de um texto comecem com letra maiúscula?",
+                    "question": "Choose the correct preposition to complete the sentence: He is good ____ mathematics.",
                     "options": [
-                        "text-transform: capitalize",
-                        "text-transform: uppercase",
-                        "text-style: capital",
-                        "font-transform: capitalize"
+                        "in",
+                        "on",
+                        "at",
+                        "with"
                     ],
-                    "answer": "text-transform: capitalize"
+                    "answer": "at"
                 },
                 {
-                    "question": "Como selecionar um elemento que tem a classe 'header'?",
+                    "question": "Which of the following is a prime number?",
                     "options": [
-                        ".header",
-                        "#header",
-                        "header",
-                        "*header"
+                        "4",
+                        "9",
+                        "11",
+                        "15"
                     ],
-                    "answer": ".header"
+                    "answer": "11"
                 },
                 {
-                    "question": "Qual é o valor padrão da propriedade 'position'?",
+                    "question": "What is the correct order of adjectives in the sentence: She bought a ____ car.",
                     "options": [
-                        "relative",
-                        "fixed",
-                        "absolute",
-                        "static"
+                        "blue small new",
+                        "new small blue",
+                        "small blue new",
+                        "new blue small"
                     ],
-                    "answer": "static"
+                    "answer": "new small blue"
                 },
                 {
-                    "question": "Qual é a função da propriedade z-index no CSS?",
+                    "question": "The Pythagorean theorem applies to which type of triangle?",
                     "options": [
-                        "Contar o número de elementos",
-                        "Definir o nível de ampliação de um elemento",
-                        "Especificar a ordem de pilha de um elemento",
-                        "Criar um efeito de zoom"
+                        "Equilateral triangle",
+                        "Isosceles triangle",
+                        "Right triangle",
+                        "Scalene triangle"
                     ],
-                    "answer": "Especificar a ordem de pilha de um elemento"
+                    "answer": "Right triangle"
                 }
             ]
         },
         {
-            "title": "Javascript",
+            "title": "Difícil",
             "icon": "../../assets/images/icon-js.svg",
             "questions": [
                 {
-                    "question": "Qual é a sintaxe correta para mostrar 'Hello World' em uma caixa alert?",
+                    "question": "Analyze the impact of globalization on local cultures, discussing both the positive and negative aspects. In your answer, explore how technological advancements, economic integration, and cultural exchange have altered traditional cultural practices. Provide examples from at least three different regions of the world, highlighting specific cultural transformations. Which of the following best describes the main negative impact of globalization on local cultures?",
                     "options": [
-                        "alertBox('Hello World');",
-                        "msg('Hello World');",
-                        "alert('Hello World');",
-                        "msgBox('Hello World');"
+                        "The increased availability of technological advancements in all regions",
+                        "The homogenization of cultural practices and the loss of traditional values",
+                        "The economic growth of local markets due to global trade",
+                        "The rise of multiculturalism and exchange of ideas"
                     ],
-                    "answer": "alert('Hello World');"
+                    "answer": "The homogenization of cultural practices and the loss of traditional values"
                 },
                 {
-                    "question": "Como se executa uma função chamada 'myFunction'?",
+                    "question": "Consider the ethical implications of artificial intelligence in decision-making processes. How might AI systems alter societal structures, and what potential risks do they present to privacy, human rights, and equality? In your response, assess the role of government regulation and corporate responsibility in mitigating these risks. Use case studies or theoretical frameworks to support your argument. Which of the following is a significant ethical concern associated with the use of artificial intelligence in decision-making?",
                     "options": [
-                        "call function myFunction()",
-                        "call myFunction()",
-                        "myFunction()",
-                        "execute myFunction()"
+                        "The potential for AI to increase the pace of technological progress",
+                        "The reduction of human bias in AI-driven decisions",
+                        "The risk of reinforcing existing inequalities through biased algorithms",
+                        "The creation of a global, standardized workforce"
                     ],
-                    "answer": "myFunction()"
+                    "answer": "The risk of reinforcing existing inequalities through biased algorithms"
                 },
                 {
-                    "question": "Como escrever uma condicional IF no Javascript?",
+                    "question": "Evaluate the role of literature in shaping societal attitudes toward gender and identity. Discuss how authors from different literary movements (such as Modernism, Feminism, and Post-Colonialism) have portrayed gender roles and identity. How do these portrayals reflect or challenge societal norms, and what is their significance in contemporary discourse? Which literary movement most directly challenged traditional gender roles and societal expectations of women?",
                     "options": [
-                        "if i = 5 then",
-                        "if (i == 5)",
-                        "if i == 5",
-                        "if i = 5"
+                        "Modernism",
+                        "Feminism",
+                        "Romanticism",
+                        "Realism"
                     ],
-                    "answer": "if (i == 5)"
+                    "answer": "Feminism"
                 },
                 {
-                    "question": "Como escrever uma condicional IF que executa algum código se 'i' NÃO for igual a 5?",
+                    "question": "Discuss the philosophical concept of free will in relation to determinism. How do these two concepts interact, and what implications do they have for moral responsibility and human agency? Provide examples from both philosophical texts and real-world scenarios to illustrate your argument. Which of the following best represents the view that free will and determinism are compatible?",
                     "options": [
-                        "if (i <> 5)",
-                        "if i =! 5 then",
-                        "if (i != 5)",
-                        "if i not = 5"
+                        "Hard determinism",
+                        "Libertarianism",
+                        "Compatibilism",
+                        "Fatalism"
                     ],
-                    "answer": "if (i != 5)"
+                    "answer": "Compatibilism"
                 },
                   {
-                    "question": "Como se inicia um laço FOR?",
+                    "question": "In the context of climate change, discuss the ethical dilemmas surrounding the responsibility of developed countries versus developing countries. How can international policy address these disparities, and what are the potential economic and social consequences of various approaches to global climate action? Which of the following is a key challenge in assigning climate change responsibilities between developed and developing countries?",
                     "options": [
-                        "for (i = 0; i <= 5)",
-                        "for i = 1 to 5",
-                        "for (i <= 5; i++)",
-                        "for (i = 0; i <= 5; i++)"
+                        "Both developed and developing countries contribute equally to global emissions",
+                        "Developed countries have historically contributed more to climate change while developing countries seek to grow economically",
+                        "Climate change affects only developed countries, making them solely responsible",
+                        "Developing countries have the financial resources to take immediate action on climate change"
                     ],
-                    "answer": "for (i = 0; i <= 5; i++)"
+                    "answer": "Developed countries have historically contributed more to climate change while developing countries seek to grow economically"
                 },
                 {
-                    "question": "Como adicionar um cometário de uma linha do Javascript?",
+                    "question": "Examine the effects of mass media on public opinion during times of political crisis. In your response, assess how the media can both inform and mislead the public, and explore the role of social media in shaping political ideologies. Consider the ethical responsibility of journalists and media outlets during critical events. Which of the following is a major concern regarding the role of social media in political crises?",
                     "options": [
-                      "'Sou um comentário de uma linha",
-                      "//Sou um comentário de uma linha",
-                      "<!--Sou um comentário de uma linha-->",
-                      "/* Sou um comentário de uma linha */"
+                      "Social media platforms offer unbiased, factual information to the public",
+                      "Social media allows for quick and accurate dissemination of information",
+                      "Social media can amplify misinformation and exacerbate political polarization",
+                      "Social media always serves as a platform for free speech without restriction"
                     ],
-                    "answer": "//Sou um comentário de uma linha"
+                    "answer": "Social media can amplify misinformation and exacerbate political polarization"
                 },
                 {
-                    "question": "Qual é a maneira correta de criar um array no Javascript?",
+                    "question": " Analyze the relationship between economic inequality and access to education. How does the disparity in wealth between social classes influence educational opportunities, and what long-term effects does this have on societal mobility and economic growth? In your answer, explore potential policy interventions to reduce this inequality. Which of the following is a major consequence of economic inequality on education?",
                     "options": [
-                        "var colors = (1:'red', 2:'green', 3:'blue')",
-                        "var colors = ['red', 'green', 'blue']",
-                        "var colors = 'red', 'green', 'blue'",
-                        "var colors = 1 = ('red'), 2 = ('green'), 3 = ('blue')"
+                        "Students from wealthier families typically have greater access to quality education",
+                        "Education systems are equally accessible to all socioeconomic classes",
+                        "Wealth inequality results in equal educational outcomes across social classes",
+                        "Educational opportunities for the poor are improved through free online platforms)"
                     ],
-                    "answer": "var colors = ['red', 'green', 'blue']"
+                    "answer": "Students from wealthier families typically have greater access to quality education"
                 },
                 {
-                    "question": "Como você encontra o maior valor entre x e y?",
+                    "question": "Discuss the role of the United Nations in addressing global conflicts. Evaluate the effectiveness of its peacekeeping missions and diplomatic initiatives in resolving international disputes. In your analysis, focus on specific case studies where the UN's involvement either succeeded or failed, and suggest improvements for future peacekeeping efforts. Which of the following was a failure of the United Nations' peacekeeping mission??",
                     "options": [
-                        "Math.ceil(x, y)",
-                        "top(x, y)",
-                        "Math.max(x, y)",
-                        "Math.highest(x, y)"
+                        "The successful resolution of the Korean War",
+                        "The inability to prevent the Rwandan genocide",
+                        "The peace agreement in the Middle East during the 1970s",
+                        "The disarmament of nuclear weapons in the 1990s"
                     ],
-                    "answer": "Math.max(x, y)"
+                    "answer": "The inability to prevent the Rwandan genocide"
                 },
                 {
-                    "question": "Qual operador é utilizado para atribuir valor a uma variável?",
+                    "question": "In the context of post-colonial studies, analyze the long-term effects of colonialism on national identities. How have former colonies navigated the challenges of building a unified national identity while grappling with the legacies of colonial rule? Provide examples from at least two countries with distinct colonial histories. Which of the following is a common post-colonial challenge faced by newly independent nations?",
                     "options": [
-                        "-",
-                        "*",
-                        "=",
-                        "x"
+                        "The immediate establishment of stable democratic systems",
+                        "The integration of diverse ethnic and cultural groups into a cohesive national identity",
+                        "The rapid economic success due to the implementation of colonial policies",
+                        "The absence of social conflicts related to national identity"
                     ],
-                    "answer": "="
+                    "answer": "The integration of diverse ethnic and cultural groups into a cohesive national identity"
                 },
                 {
-                    "question": "Qual é a maneira correta de criar um objeto Javascript?",
+                    "question": "Critically assess the influence of social and cultural movements on government policy in the 20th and 21st centuries. How have movements such as Civil Rights, Feminism, LGBTQ+ rights, and environmental activism changed governmental approaches to social justice and legal reform? In your answer, discuss the challenges faced by these movements and the strategies they employed to influence policy. Which of the following movements most directly led to significant changes in government policy concerning gender equality?",
                     "options": [
-                        "var person = {firstName: 'John', lastName: 'Doe'};",
-                        "var person = {firstName = 'John', lastName = 'Doe'};",
-                        "var person = (firstName: 'John', lastName: 'Doe');",
-                        "var person = (firstName = 'John', lastName = 'Doe');"
+                        "Civil Rights Movement",
+                        "Feminist Movement",
+                        "Environmental Movement",
+                        "Anti-Vietnam War Movement"
                     ],
-                    "answer": "var person = {firstName: 'John', lastName: 'Doe'};"
-                }
-            ]
-        },
-        {
-            "title": "Acessibilidade",
-            "icon": "../../assets/images/icon-accessibility.svg",
-            "questions": [
-                {
-                    "question": "O que significa 'WCAG'?",
-                    "options": [
-                        "Diretrizes de Acessibilidade para Conteúdo da Web",
-                        "Guia de Acessibilidade e Conformidade na Web",
-                        "Metas de Acessibilidade para Conteúdo da Web",
-                        "Diretrizes de Conformidade e Acessibilidade do Site"
-                    ],
-                    "answer": "Diretrizes de Acessibilidade para Conteúdo da Web"
-                },
-                {
-                    "question": "Qual elemento é usado para fornecer texto alternativo para imagens para usuários de leitores de tela?",
-                    "options": [
-                        "<alt>",
-                        "<figcaption>",
-                        "<description>",
-                        "<img alt='descrição'>"
-                    ],
-                    "answer": "<img alt='descrição'>"
-                },
-                {
-                    "question": "O que significa ARIA no desenvolvimento web?",
-                    "options": [
-                        "Accessible Rich Internet Applications",
-                        "Advanced Responsive Internet Assistance",
-                        "Accessible Responsive Internet Applications",
-                        "Automated Responsive Internet Actions"
-                    ],
-                    "answer": "Accessible Rich Internet Applications"
-                },
-                {
-                    "question": "Qual dos seguintes não é um princípio do WCAG?",
-                    "options": [
-                        "Perceptível",
-                        "Confiável",
-                        "Operável",
-                        "Compreensível"
-                    ],
-                    "answer": "Confiável"
-                },
-                {
-                    "question": "Qual dessas razões de contraste de cor define o requisito mínimo do nível AA do WCAG 2.1 para texto normal?",
-                    "options": [
-                        "3:1",
-                        "4.5:1",
-                        "7:1",
-                        "2:1"
-                    ],
-                    "answer": "4.5:1"
-                },
-                {
-                    "question": "Qual dos seguintes elementos é inerentemente focável, o que significa que pode receber foco sem um atributo 'tabindex'?",
-                    "options": [
-                        "<div>",
-                        "<span>",
-                        "<a href='...'>",
-                        "<p>"
-                    ],
-                    "answer": "<a href='...'>"
-                },
-                {
-                    "question": "Qual é o propósito do atributo 'lang' em uma página HTML?",
-                    "options": [
-                        "Para especificar a linguagem de script",
-                        "Para definir o conjunto de caracteres",
-                        "Para indicar o idioma do conteúdo da página",
-                        "Para declarar um pacote de idioma"
-                    ],
-                    "answer": "Para indicar o idioma do conteúdo da página"
-                },
-                {
-                    "question": "Qual diretriz garante que o conteúdo seja acessível tanto pelo teclado quanto pelo mouse?",
-                    "options": [
-                        "Acessível por Teclado",
-                        "Independência de Mouse",
-                        "Independência de Dispositivo",
-                        "Controles Operáveis"
-                    ],
-                    "answer": "Acessível por Teclado"
-                },
-                {
-                    "question": "Qual é o papel dos links 'pular navegação' na acessibilidade web?",
-                    "options": [
-                        "Pular a navegação primária para o conteúdo principal",
-                        "Fornecer atalhos para diferentes seções do site",
-                        "Ajudar os usuários a pular seções indesejadas como propagandas",
-                        "Bypassar links quebrados na navegação"
-                    ],
-                    "answer": "Pular a navegação primária para o conteúdo principal"
-                },
-                {
-                    "question": "Qual dessas ferramentas pode ajudar a verificar a acessibilidade de um site?",
-                    "options": [
-                        "Validador W3C",
-                        "Google Lighthouse",
-                        "Validador CSS",
-                        "Console JavaScript"
-                    ],
-                    "answer": "Google Lighthouse"
+                    "answer": "Feminist Movement"
                 }
             ]
         }
+        
     ]
 }
