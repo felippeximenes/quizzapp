@@ -17,21 +17,22 @@
     --secondary-text-color:  #626c7f;
     --button-bg: #fff;
     --shadow: 0px 16px 40px 0px rgba(143, 168, 193, 0.14);
-    --bg-facil: #418bc863;
-    --bg-medio: #fde56f67;
-    --bg-dificil: #6fbc6267;
+    --bg-html: #fff1e9;
+    --bg-css: #e8fdef;
+    --bg-javascript: #ebf0ff;
+    --bg-acessibilidade: #f6e7ff;
     --white: #fff;
     --green: #26d782;
     --red: #ee5454;
-    --bg-mobile: url(../../.assets/images/pattern-background-mobile-light.svg);
-    --bg-desktop: url(../../.assets/images/pattern-background-desktop-light.svg);  
+    --bg-mobile: url(../../assets/images/pattern-background-mobile-light.svg);
+    --bg-desktop: url(../../assets/images/pattern-background-desktop-light.svg);  
 }
 
 body.escuro {
     --bg-color: #313e51;
     --color-span: #313e51;
-    --bg-mobile: url(../../.assets/images/pattern-background-mobile-dark.svg);
-    --bg-desktop: url(../../.assets/images/pattern-background-desktop-dark.svg);
+    --bg-mobile: url(../../assets/images/pattern-background-mobile-dark.svg);
+    --bg-desktop: url(../../assets/images/pattern-background-desktop-dark.svg);
     --primary-text-color: #fff;
     --secondary-text-color: #abc1e1; 
     --button-bg: #3b4d66;
@@ -58,25 +59,28 @@ header {
 }
 
 .assunto_icone {
-    background: #f6e7ff;
+    
     width: 40px;
     height: 40px;
     padding: 5px;
     border-radius: 5px;
 }
 
-.assunto_icone.facil {
-    background: var(--bg-facil);
+.assunto_icone.html {
+    background: var(--bg-html);
 }
 
-.assunto_icone.medio{
-    background: var(--bg-medio);
+.assunto_icone.css {
+    background: var(--bg-css);
 }
 
-.assunto_icone.dificil {
-    background: var(--bg-dificil);
+.assunto_icone.javascript {
+    background: var(--bg-javascript);
 }
 
+.assunto_icone.acessibilidade {
+    background: var(--bg-acessibilidade);
+}
 
 
 .assunto_icone img {
@@ -151,7 +155,6 @@ main {
 
 .barra_progresso div {
     height: 100%;
-    width: 60%;
     background-color: var(--purple);
     border-radius: 999px;
 }
@@ -352,4 +355,3 @@ main {
     }
     
 }
-
