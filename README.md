@@ -15,8 +15,7 @@ For this project, I implemented functionalities that make the user experience dy
 • HTML & CSS: Structure and style of the user interface. • Modular JavaScript​: ES6 modules to organize and reuse code. • DOM Manipulation: Dynamic creation of HTML elements. • JavaScript Events: Enhanced interactivity. • Local Storage: Data persistence. • Fetch API: Dynamic loading of questions. • Asynchronous Functions: Use of async/await for efficiency. • Accessibility: Switching between light and dark themes.
 
 🔗 𝗖𝗵𝗲𝗰𝗸 𝘁𝗵𝗲 𝗽𝗿𝗼𝗷𝗲𝗰𝘁:
-https://lnkd.in/d4JWtWQT
-
+https://iridescent-marshmallow-d0f130.netlify.app/
 
 ## Sobre 
 
@@ -28,6 +27,9 @@ No ultimo mês realizei um projeto desenvolvido como parte do curso de Análise 
  🎨 Ferramentas Utilizadas:
  
 • HTML & CSS: Estrutura e estilo da interface do usuário. • JavaScript Modular: Módulos ES6 para organizar e reutilizar código. • Manipulação do DOM: Criação dinâmica de elementos HTML. • Eventos JavaScript​: Interatividade aprimorada. • Local Storage: Persistência de dados. • Fetch API: Carregamento dinâmico de perguntas. • Funções Assíncronas: Uso de async/await para eficiência. • Acessibilidade: Alternância entre temas claros e escuros.
+
+ 🔗 𝗖𝗼𝗻𝗳𝗶𝗿𝗮 𝗼 𝗽𝗿𝗼𝗷𝗲𝘁𝗼 𝗮𝗼 𝘃𝗶𝘃𝗼:
+https://iridescent-marshmallow-d0f130.netlify.app/
 
 # Autor
 
