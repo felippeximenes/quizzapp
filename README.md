@@ -1,5 +1,5 @@
 # Ava
-[![NPM](https://img.shields.io/npm/l/react)](https://github.com/devsuperior/sds1-wmazoni/blob/master/LICENSE) 
+[![NPM](https://img.shields.io/npm/l/react)](https://github.com/felippeximenes/quizzapp/blob/main/LICENSE) 
 
 ## Layout web and Mobile
 
