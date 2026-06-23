@@ -1,0 +1,323 @@
+{
+    "quizzes": [
+        {
+            "title": "Fácil",
+            "icon": "../../assets/images/icon-html.svg",
+            "questions": [
+                {
+                    "question": "What is the capital of Japan??",
+                    "options": [
+                        "Beijing",
+                        "Tokyo",
+                        "Seoul",
+                        "Bangkok"
+                    ],
+                    "answer": "Tokyo"
+                },
+                {
+                    "question": "How many days are there in a leap year?",
+                    "options": [
+                        "365",
+                        "366",
+                        "367",
+                        "368"
+                    ],
+                    "answer": "366"
+                },
+                {
+                    "question": "What is the largest animal in the world?",
+                    "options": [
+                        "Elephant",
+                        "Blue Whale",
+                        "Giraffe",
+                        "Hippopotamus"
+                    ],
+                    "answer": "Blue Whale"
+                },
+                {
+                    "question": "Which planet is known as the Red Planet?",
+                    "options": [
+                        "Earth",
+                        "Mars",
+                        "Jupiter",
+                        "Venus"
+                    ],
+                    "answer": "Mars"
+                },
+                {
+                    "question": "Who wrote the book Harry Potter?",
+                    "options": [
+                        "J.R.R. Tolkien",
+                        "George R.R. Martin",
+                        "J.K. Rowling",
+                        "Suzanne Collins"
+                    ],
+                    "answer": "J.K. Rowling"
+                },
+                {
+                    "question": "What is the main ingredient in guacamole?",
+                    "options": [
+                        "Tomato",
+                        "Avocado",
+                        "Onion",
+                        "Pepper"
+                    ],
+                    "answer": "Avocado"
+                },
+                {
+                    "question": "How many continents are there on Earth??",
+                    "options": [
+                        "5",
+                        "6",
+                        "7",
+                        "8"
+                    ],
+                    "answer": "7"
+                },
+                {
+                    "question": "What color are the stars on the flag of the United States?",
+                    "options": [
+                        "Red",
+                        "White",
+                        "Blue",
+                        "Yellow"
+                    ],
+                    "answer": "White"
+                },
+                {
+                    "question": "What is the chemical symbol for water?",
+                    "options": [
+                        "H2O",
+                        "CO2",
+                        "O2",
+                        "H2"
+                    ],
+                    "answer": "H2O"
+                },
+                {
+                    "question": "What is the smallest prime number?",
+                    "options": [
+                        "0",
+                        "1",
+                        "2",
+                        "3"
+                    ],
+                    "answer": "2"
+                }
+            ]
+        },
+        {
+            "title": "Médio",
+            "icon": "../../assets/images/icon-css.svg",
+            "questions": [
+                {
+                    "question": "Which of the following sentences is grammatically correct?",
+                    "options": [
+                        "She don't like apples.",
+                        "She doesn't likes apples.",
+                        "She don't likes apples.",
+                        "She doesn't like apples."
+                    ],
+                    "answer": "She doesn't like apples."
+                },
+                {
+                    "question": "What is the synonym of abundant?",
+                    "options": [
+                        "Scarce",
+                        "Plentiful",
+                        "Small",
+                        "Insufficient"
+                    ],
+                    "answer": "Plentiful"
+                },
+                {
+                    "question": "Choose the correct form of the verb: Neither of the options ____ acceptable.",
+                    "options": [
+                        "are",
+                        "be",
+                        "were",
+                        "is"
+                    ],
+                    "answer": "is"
+                },
+                {
+                    "question": "In which year did the World War II end?",
+                    "options": [
+                        "1945",
+                        "1946",
+                        "1944",
+                        "1943"
+                    ],
+                    "answer": "1945"
+                },
+                {
+                    "question": "Identify the part of speech of the underlined word in the following sentence: She runs very quickly.",
+                    "options": [
+                        "Noun",
+                        "Adjective",
+                        "Verb",
+                        "Adverb"
+                    ],
+                    "answer": "Adverb"
+                },
+                {
+                    "question": "Which one of the following is the largest ocean in the world?",
+                    "options": [
+                        "Atlantic Ocean",
+                        "Indian Ocean",
+                        "Arctic Ocean",
+                        "Pacific Ocean"
+                    ],
+                    "answer": "Pacific Ocean"
+                },
+                {
+                    "question": "Choose the correct preposition to complete the sentence: He is good ____ mathematics.",
+                    "options": [
+                        "in",
+                        "on",
+                        "at",
+                        "with"
+                    ],
+                    "answer": "at"
+                },
+                {
+                    "question": "Which of the following is a prime number?",
+                    "options": [
+                        "4",
+                        "9",
+                        "11",
+                        "15"
+                    ],
+                    "answer": "11"
+                },
+                {
+                    "question": "What is the correct order of adjectives in the sentence: She bought a ____ car.",
+                    "options": [
+                        "blue small new",
+                        "new small blue",
+                        "small blue new",
+                        "new blue small"
+                    ],
+                    "answer": "new small blue"
+                },
+                {
+                    "question": "The Pythagorean theorem applies to which type of triangle?",
+                    "options": [
+                        "Equilateral triangle",
+                        "Isosceles triangle",
+                        "Right triangle",
+                        "Scalene triangle"
+                    ],
+                    "answer": "Right triangle"
+                }
+            ]
+        },
+        {
+            "title": "Difícil",
+            "icon": "../../assets/images/icon-js.svg",
+            "questions": [
+                {
+                    "question": "Analyze the impact of globalization on local cultures, discussing both the positive and negative aspects. In your answer, explore how technological advancements, economic integration, and cultural exchange have altered traditional cultural practices. Provide examples from at least three different regions of the world, highlighting specific cultural transformations. Which of the following best describes the main negative impact of globalization on local cultures?",
+                    "options": [
+                        "The increased availability of technological advancements in all regions",
+                        "The homogenization of cultural practices and the loss of traditional values",
+                        "The economic growth of local markets due to global trade",
+                        "The rise of multiculturalism and exchange of ideas"
+                    ],
+                    "answer": "The homogenization of cultural practices and the loss of traditional values"
+                },
+                {
+                    "question": "Consider the ethical implications of artificial intelligence in decision-making processes. How might AI systems alter societal structures, and what potential risks do they present to privacy, human rights, and equality? In your response, assess the role of government regulation and corporate responsibility in mitigating these risks. Use case studies or theoretical frameworks to support your argument. Which of the following is a significant ethical concern associated with the use of artificial intelligence in decision-making?",
+                    "options": [
+                        "The potential for AI to increase the pace of technological progress",
+                        "The reduction of human bias in AI-driven decisions",
+                        "The risk of reinforcing existing inequalities through biased algorithms",
+                        "The creation of a global, standardized workforce"
+                    ],
+                    "answer": "The risk of reinforcing existing inequalities through biased algorithms"
+                },
+                {
+                    "question": "Evaluate the role of literature in shaping societal attitudes toward gender and identity. Discuss how authors from different literary movements (such as Modernism, Feminism, and Post-Colonialism) have portrayed gender roles and identity. How do these portrayals reflect or challenge societal norms, and what is their significance in contemporary discourse? Which literary movement most directly challenged traditional gender roles and societal expectations of women?",
+                    "options": [
+                        "Modernism",
+                        "Feminism",
+                        "Romanticism",
+                        "Realism"
+                    ],
+                    "answer": "Feminism"
+                },
+                {
+                    "question": "Discuss the philosophical concept of free will in relation to determinism. How do these two concepts interact, and what implications do they have for moral responsibility and human agency? Provide examples from both philosophical texts and real-world scenarios to illustrate your argument. Which of the following best represents the view that free will and determinism are compatible?",
+                    "options": [
+                        "Hard determinism",
+                        "Libertarianism",
+                        "Compatibilism",
+                        "Fatalism"
+                    ],
+                    "answer": "Compatibilism"
+                },
+                  {
+                    "question": "In the context of climate change, discuss the ethical dilemmas surrounding the responsibility of developed countries versus developing countries. How can international policy address these disparities, and what are the potential economic and social consequences of various approaches to global climate action? Which of the following is a key challenge in assigning climate change responsibilities between developed and developing countries?",
+                    "options": [
+                        "Both developed and developing countries contribute equally to global emissions",
+                        "Developed countries have historically contributed more to climate change while developing countries seek to grow economically",
+                        "Climate change affects only developed countries, making them solely responsible",
+                        "Developing countries have the financial resources to take immediate action on climate change"
+                    ],
+                    "answer": "Developed countries have historically contributed more to climate change while developing countries seek to grow economically"
+                },
+                {
+                    "question": "Examine the effects of mass media on public opinion during times of political crisis. In your response, assess how the media can both inform and mislead the public, and explore the role of social media in shaping political ideologies. Consider the ethical responsibility of journalists and media outlets during critical events. Which of the following is a major concern regarding the role of social media in political crises?",
+                    "options": [
+                      "Social media platforms offer unbiased, factual information to the public",
+                      "Social media allows for quick and accurate dissemination of information",
+                      "Social media can amplify misinformation and exacerbate political polarization",
+                      "Social media always serves as a platform for free speech without restriction"
+                    ],
+                    "answer": "Social media can amplify misinformation and exacerbate political polarization"
+                },
+                {
+                    "question": " Analyze the relationship between economic inequality and access to education. How does the disparity in wealth between social classes influence educational opportunities, and what long-term effects does this have on societal mobility and economic growth? In your answer, explore potential policy interventions to reduce this inequality. Which of the following is a major consequence of economic inequality on education?",
+                    "options": [
+                        "Students from wealthier families typically have greater access to quality education",
+                        "Education systems are equally accessible to all socioeconomic classes",
+                        "Wealth inequality results in equal educational outcomes across social classes",
+                        "Educational opportunities for the poor are improved through free online platforms)"
+                    ],
+                    "answer": "Students from wealthier families typically have greater access to quality education"
+                },
+                {
+                    "question": "Discuss the role of the United Nations in addressing global conflicts. Evaluate the effectiveness of its peacekeeping missions and diplomatic initiatives in resolving international disputes. In your analysis, focus on specific case studies where the UN's involvement either succeeded or failed, and suggest improvements for future peacekeeping efforts. Which of the following was a failure of the United Nations' peacekeeping mission??",
+                    "options": [
+                        "The successful resolution of the Korean War",
+                        "The inability to prevent the Rwandan genocide",
+                        "The peace agreement in the Middle East during the 1970s",
+                        "The disarmament of nuclear weapons in the 1990s"
+                    ],
+                    "answer": "The inability to prevent the Rwandan genocide"
+                },
+                {
+                    "question": "In the context of post-colonial studies, analyze the long-term effects of colonialism on national identities. How have former colonies navigated the challenges of building a unified national identity while grappling with the legacies of colonial rule? Provide examples from at least two countries with distinct colonial histories. Which of the following is a common post-colonial challenge faced by newly independent nations?",
+                    "options": [
+                        "The immediate establishment of stable democratic systems",
+                        "The integration of diverse ethnic and cultural groups into a cohesive national identity",
+                        "The rapid economic success due to the implementation of colonial policies",
+                        "The absence of social conflicts related to national identity"
+                    ],
+                    "answer": "The integration of diverse ethnic and cultural groups into a cohesive national identity"
+                },
+                {
+                    "question": "Critically assess the influence of social and cultural movements on government policy in the 20th and 21st centuries. How have movements such as Civil Rights, Feminism, LGBTQ+ rights, and environmental activism changed governmental approaches to social justice and legal reform? In your answer, discuss the challenges faced by these movements and the strategies they employed to influence policy. Which of the following movements most directly led to significant changes in government policy concerning gender equality?",
+                    "options": [
+                        "Civil Rights Movement",
+                        "Feminist Movement",
+                        "Environmental Movement",
+                        "Anti-Vietnam War Movement"
+                    ],
+                    "answer": "Feminist Movement"
+                }
+            ]
+        }
+        
+    ]
+}
