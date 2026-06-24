@@ -1,0 +1,113 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Transform: AWS::Serverless-2016-10-31
+Description: QuizzApp backend — AI-powered quiz generation for AWS CLF-C02
+
+# ── Globals ────────────────────────────────────────────────────────────────
+Globals:
+  Function:
+    Runtime: python3.12
+    Timeout: 30
+    MemorySize: 256
+    Environment:
+      Variables:
+        BEDROCK_REGION: !Ref BedrockRegion
+        BEDROCK_MODEL_ID: !Ref BedrockModelId
+
+# ── Parameters ─────────────────────────────────────────────────────────────
+Parameters:
+  BedrockRegion:
+    Type: String
+    Default: us-east-1
+    Description: AWS region where Bedrock is enabled on your account.
+
+  BedrockModelId:
+    Type: String
+    Default: anthropic.claude-3-haiku-20240307-v1:0
+    Description: >
+      Bedrock foundation model ID.
+      Haiku is recommended: fast, cheap and sufficient for quiz generation.
+      Alternatives: anthropic.claude-3-sonnet-20240229-v1:0 (higher quality).
+
+# ── Resources ──────────────────────────────────────────────────────────────
+Resources:
+
+  # HTTP API — cheaper and simpler than REST API for this use case
+  QuizApi:
+    Type: AWS::Serverless::HttpApi
+    Properties:
+      StageName: prod
+      CorsConfiguration:
+        AllowOrigins:
+          - "*"
+        AllowMethods:
+          - POST
+          - OPTIONS
+        AllowHeaders:
+          - Content-Type
+
+  # Shared IAM policy: allows Lambda to invoke any Bedrock foundation model
+  BedrockInvokePolicy:
+    Type: AWS::IAM::ManagedPolicy
+    Properties:
+      Description: Allow Lambda functions to invoke Amazon Bedrock foundation models
+      PolicyDocument:
+        Version: "2012-10-17"
+        Statement:
+          - Effect: Allow
+            Action:
+              - bedrock:InvokeModel
+            Resource:
+              - !Sub arn:aws:bedrock:${BedrockRegion}::foundation-model/*
+
+  # Lambda 1: generates a CLF-C02 question via Bedrock
+  GenerateQuestionFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      FunctionName: quizzapp-generate-question
+      Handler: handler.lambda_handler
+      CodeUri: functions/generate_question/
+      Description: Generates an AWS CLF-C02 multiple-choice question using Amazon Bedrock
+      Policies:
+        - !Ref BedrockInvokePolicy
+      Events:
+        Generate:
+          Type: HttpApi
+          Properties:
+            ApiId: !Ref QuizApi
+            Path: /generate-question
+            Method: post
+
+  # Lambda 2: evaluates a submitted answer and returns AI feedback
+  EvaluateAnswerFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      FunctionName: quizzapp-evaluate-answer
+      Handler: handler.lambda_handler
+      CodeUri: functions/evaluate_answer/
+      Description: Evaluates an answer and returns personalized Bedrock feedback with study tips
+      Policies:
+        - !Ref BedrockInvokePolicy
+      Events:
+        Evaluate:
+          Type: HttpApi
+          Properties:
+            ApiId: !Ref QuizApi
+            Path: /evaluate-answer
+            Method: post
+
+# ── Outputs ────────────────────────────────────────────────────────────────
+Outputs:
+  ApiUrl:
+    Description: >
+      HTTP API base URL — paste this value into VITE_API_URL in your frontend .env.local file.
+    Value: !Sub https://${QuizApi}.execute-api.${AWS::Region}.amazonaws.com
+    Export:
+      Name: QuizzAppApiUrl
+
+  GenerateQuestionArn:
+    Description: ARN of the generate-question Lambda function
+    Value: !GetAtt GenerateQuestionFunction.Arn
+
+  EvaluateAnswerArn:
+    Description: ARN of the evaluate-answer Lambda function
+    Value: !GetAtt EvaluateAnswerFunction.Arn
