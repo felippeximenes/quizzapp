@@ -18,3 +18,17 @@ Thumbs.db
 # Editor
 .vscode/
 .idea/
+
+# Python
+__pycache__/
+*.pyc
+*.pyo
+.venv/
+venv/
+
+# AWS SAM build output
+.aws-sam/
+
+# Environment variables (contain secrets)
+.env.local
+.env.*.local
