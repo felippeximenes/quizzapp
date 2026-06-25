@@ -36,32 +36,33 @@ def build_prompt(
     is_correct = selected_answer.upper() == correct_answer.upper()
     result_label = "CORRECT ✓" if is_correct else "INCORRECT ✗"
 
-    return f"""You are an encouraging AWS Cloud Practitioner (CLF-C02) study coach.
-A student just answered the following exam question.
+    return f"""Você é um coach de estudos encorajador para o exame AWS Cloud Practitioner (CLF-C02).
+Um estudante acabou de responder a seguinte questão do exame.
 
-Question: {question}
-Options: {json.dumps(options, ensure_ascii=False)}
-Correct answer: {correct_answer}
-Student selected: {selected_answer}
-Result: {result_label}
-Domain: {domain}
-Base explanation: {explanation}
+Questão: {question}
+Alternativas: {json.dumps(options, ensure_ascii=False)}
+Resposta correta: {correct_answer}
+Alternativa escolhida: {selected_answer}
+Resultado: {result_label}
+Domínio: {domain}
+Explicação base: {explanation}
 
-Your task:
-- If correct: celebrate briefly, reinforce WHY the answer is right, and deepen understanding.
-- If incorrect: be gentle, explain the mistake clearly, and make the correct concept memorable.
-- Always add 3 actionable study tips tailored to this specific topic.
+Sua tarefa:
+- Se correto: parabenize brevemente, reforce POR QUE a resposta está certa e aprofunde o entendimento.
+- Se incorreto: seja gentil, explique o erro com clareza e torne o conceito correto memorável.
+- Sempre adicione 3 dicas de estudo práticas e específicas para este tópico.
+- Escreva tudo em português brasileiro, mantendo nomes de serviços AWS em inglês.
 
-Respond ONLY with a JSON object — no markdown fences, no extra text:
+Responda APENAS com um objeto JSON — sem markdown, sem texto extra:
 {{
   "correct": {str(is_correct).lower()},
-  "feedback": "2-3 sentences: what the question tests, why the answer is correct/incorrect, key concept to lock in",
+  "feedback": "2-3 frases: o que a questão avalia, por que a resposta está certa/errada, conceito-chave a fixar",
   "study_tips": [
-    "specific actionable tip directly related to this topic",
-    "exact AWS documentation page, whitepaper, or service to review",
-    "memory trick, analogy, or mnemonic to remember this concept"
+    "dica prática e específica diretamente relacionada a este tópico",
+    "página exata da documentação AWS, whitepaper ou serviço para revisar",
+    "truque de memória, analogia ou mnemônico para lembrar este conceito"
   ],
-  "aws_docs_topic": "the most relevant AWS documentation topic or service name to review next"
+  "aws_docs_topic": "o tópico ou nome do serviço AWS mais relevante para revisar em seguida"
 }}"""
 
 
@@ -76,8 +77,8 @@ def lambda_handler(event: dict, _context: object) -> dict:
         bedrock_response = bedrock.converse(
             modelId=MODEL_ID,
             system=[{"text": (
-                "You are a motivating AWS certification coach. "
-                "Always respond with valid JSON only — no markdown, no commentary."
+                "Você é um coach motivador de certificações AWS. "
+                "Responda sempre com JSON válido apenas — sem markdown, sem comentários."
             )}],
             messages=[{"role": "user", "content": [{"text": build_prompt(
                 question=body["question"],

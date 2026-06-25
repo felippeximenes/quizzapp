@@ -54,25 +54,27 @@ def make_response(status: int, body: dict) -> dict:
 
 
 def build_prompt(domain_key: str, difficulty: str) -> str:
-    return f"""You are an expert AWS certification instructor writing questions for the AWS Cloud Practitioner (CLF-C02) exam.
+    return f"""Você é um instrutor especialista em certificações AWS escrevendo questões para o exame AWS Cloud Practitioner (CLF-C02).
 
-Generate ONE multiple-choice question for the following specifications:
-- Domain: {DOMAINS[domain_key]}
-- Difficulty: {difficulty} — {DIFFICULTY_GUIDE[difficulty]}
+Gere UMA questão de múltipla escolha com as seguintes especificações:
+- Domínio: {DOMAINS[domain_key]}
+- Dificuldade: {difficulty} — {DIFFICULTY_GUIDE[difficulty]}
 
-Rules:
-1. The question must match the official CLF-C02 exam style and scope exactly
-2. Provide exactly 4 answer options labeled A, B, C, D
-3. Only one option is correct
-4. Distractors must be plausible but clearly wrong to a well-prepared candidate
-5. The explanation must reinforce the key AWS concept being tested
+Regras:
+1. A questão deve seguir exatamente o estilo e escopo do exame oficial CLF-C02
+2. Escreva a questão e as alternativas em português brasileiro
+3. Mantenha os nomes dos serviços AWS em inglês (ex: Amazon S3, AWS Lambda, Amazon EC2)
+4. Forneça exatamente 4 alternativas rotuladas A, B, C, D
+5. Apenas uma alternativa está correta
+6. As alternativas erradas devem ser plausíveis, mas claramente incorretas para um candidato bem preparado
+7. A explicação deve reforçar o conceito AWS sendo avaliado, também em português
 
-Respond ONLY with a JSON object — no markdown fences, no extra text:
+Responda APENAS com um objeto JSON — sem markdown, sem texto extra:
 {{
-  "question": "the full question text",
-  "options": ["A) option text", "B) option text", "C) option text", "D) option text"],
+  "question": "texto completo da questão em português",
+  "options": ["A) texto da alternativa", "B) texto da alternativa", "C) texto da alternativa", "D) texto da alternativa"],
   "answer": "A",
-  "explanation": "why the correct answer is right and why each wrong option is incorrect",
+  "explanation": "por que a resposta correta está certa e por que cada alternativa errada está incorreta",
   "domain": "{domain_key}",
   "difficulty": "{difficulty}"
 }}"""
@@ -96,8 +98,8 @@ def lambda_handler(event: dict, _context: object) -> dict:
         bedrock_response = bedrock.converse(
             modelId=MODEL_ID,
             system=[{"text": (
-                "You are an AWS certification expert. "
-                "Always respond with valid JSON only — no markdown, no commentary."
+                "Você é um especialista em certificações AWS. "
+                "Responda sempre com JSON válido apenas — sem markdown, sem comentários."
             )}],
             messages=[{"role": "user", "content": [{"text": build_prompt(domain, difficulty)}]}],
             inferenceConfig={"maxTokens": 1024, "temperature": 0.7},

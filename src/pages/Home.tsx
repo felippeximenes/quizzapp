@@ -38,10 +38,10 @@ export function Home() {
       <main>
         <section className="boas_vindas">
           <h1>
-            Bem-vindo(a) ao <br />
-            <strong>English Quiz!</strong>
+            Prepare-se para o <br />
+            <strong>AWS CLF-C02!</strong>
           </h1>
-          <p>Escolha a dificuldade para começar</p>
+          <p>Escolha a dificuldade — perguntas geradas por IA</p>
         </section>
 
         <section className="assuntos">
