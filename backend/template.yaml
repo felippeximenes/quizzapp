@@ -5,7 +5,7 @@ Description: QuizzApp backend — AI-powered quiz generation for AWS CLF-C02
 # ── Globals ────────────────────────────────────────────────────────────────
 Globals:
   Function:
-    Runtime: python3.12
+    Runtime: python3.11
     Timeout: 30
     MemorySize: 256
     Environment:
