@@ -73,31 +73,31 @@ def lambda_handler(event: dict, _context: object) -> dict:
         if missing:
             return make_response(400, {"error": f"Missing required fields: {missing}"})
 
-        bedrock_response = bedrock.invoke_model(
+        bedrock_response = bedrock.converse(
             modelId=MODEL_ID,
-            body=json.dumps({
-                "anthropic_version": "bedrock-2023-05-31",
-                "max_tokens": 1024,
-                "system": (
-                    "You are a motivating AWS certification coach. "
-                    "Always respond with valid JSON only — no markdown, no commentary."
-                ),
-                "messages": [{
-                    "role": "user",
-                    "content": build_prompt(
-                        question=body["question"],
-                        options=body["options"],
-                        correct_answer=body["correct_answer"],
-                        selected_answer=body["selected_answer"],
-                        domain=body.get("domain", ""),
-                        explanation=body.get("explanation", ""),
-                    ),
-                }],
-            }),
+            system=[{"text": (
+                "You are a motivating AWS certification coach. "
+                "Always respond with valid JSON only — no markdown, no commentary."
+            )}],
+            messages=[{"role": "user", "content": [{"text": build_prompt(
+                question=body["question"],
+                options=body["options"],
+                correct_answer=body["correct_answer"],
+                selected_answer=body["selected_answer"],
+                domain=body.get("domain", ""),
+                explanation=body.get("explanation", ""),
+            )}]}],
+            inferenceConfig={"maxTokens": 1024, "temperature": 0.7},
         )
 
-        raw = json.loads(bedrock_response["body"].read())
-        feedback_data: dict = json.loads(raw["content"][0]["text"])
+        raw_text: str = bedrock_response["output"]["message"]["content"][0]["text"]
+        clean = raw_text.strip()
+        if clean.startswith("```"):
+            clean = clean.split("```", 2)[1]
+            if clean.startswith("json"):
+                clean = clean[4:]
+            clean = clean.rsplit("```", 1)[0].strip()
+        feedback_data: dict = json.loads(clean)
 
         return make_response(200, feedback_data)
 

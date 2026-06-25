@@ -22,11 +22,11 @@ Parameters:
 
   BedrockModelId:
     Type: String
-    Default: anthropic.claude-3-haiku-20240307-v1:0
+    Default: amazon.nova-pro-v1:0
     Description: >
       Bedrock foundation model ID.
-      Haiku is recommended: fast, cheap and sufficient for quiz generation.
-      Alternatives: anthropic.claude-3-sonnet-20240229-v1:0 (higher quality).
+      Amazon Nova Pro is recommended: no marketplace subscription required, high quality.
+      Alternatives: amazon.nova-lite-v1:0 (faster/cheaper), amazon.nova-micro-v1:0 (cheapest).
 
 # ── Resources ──────────────────────────────────────────────────────────────
 Resources:
@@ -58,6 +58,14 @@ Resources:
               - bedrock:InvokeModel
             Resource:
               - !Sub arn:aws:bedrock:${BedrockRegion}::foundation-model/*
+              - !Sub arn:aws:bedrock:*::foundation-model/*
+              - arn:aws:bedrock:*:*:inference-profile/*
+          - Effect: Allow
+            Action:
+              - aws-marketplace:ViewSubscriptions
+              - aws-marketplace:Subscribe
+              - aws-marketplace:Unsubscribe
+            Resource: "*"
 
   # Lambda 1: generates a CLF-C02 question via Bedrock
   GenerateQuestionFunction:

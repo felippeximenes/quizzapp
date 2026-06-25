@@ -93,27 +93,33 @@ def lambda_handler(event: dict, _context: object) -> dict:
                 "error": "Invalid difficulty. Must be one of: easy, medium, hard"
             })
 
-        bedrock_response = bedrock.invoke_model(
+        bedrock_response = bedrock.converse(
             modelId=MODEL_ID,
-            body=json.dumps({
-                "anthropic_version": "bedrock-2023-05-31",
-                "max_tokens": 1024,
-                "system": (
-                    "You are an AWS certification expert. "
-                    "Always respond with valid JSON only — no markdown, no commentary."
-                ),
-                "messages": [{"role": "user", "content": build_prompt(domain, difficulty)}],
-            }),
+            system=[{"text": (
+                "You are an AWS certification expert. "
+                "Always respond with valid JSON only — no markdown, no commentary."
+            )}],
+            messages=[{"role": "user", "content": [{"text": build_prompt(domain, difficulty)}]}],
+            inferenceConfig={"maxTokens": 1024, "temperature": 0.7},
         )
 
-        raw = json.loads(bedrock_response["body"].read())
-        question_data: dict = json.loads(raw["content"][0]["text"])
+        raw_text: str = bedrock_response["output"]["message"]["content"][0]["text"]
+        # Strip markdown fences if model wrapped the JSON
+        clean = raw_text.strip()
+        if clean.startswith("```"):
+            clean = clean.split("```", 2)[1]
+            if clean.startswith("json"):
+                clean = clean[4:]
+            clean = clean.rsplit("```", 1)[0].strip()
+        question_data: dict = json.loads(clean)
 
         return make_response(200, question_data)
 
     except ClientError as exc:
         code = exc.response["Error"]["Code"]
-        return make_response(502, {"error": f"Bedrock error: {code}"})
+        message = exc.response["Error"]["Message"]
+        print(f"[Bedrock ClientError] {code}: {message}")
+        return make_response(502, {"error": f"Bedrock error: {code}", "detail": message})
     except (json.JSONDecodeError, KeyError, IndexError):
         return make_response(502, {"error": "Model returned an unexpected response format"})
     except Exception as exc:  # noqa: BLE001
