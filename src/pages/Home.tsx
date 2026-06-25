@@ -1,6 +1,7 @@
 import { useNavigate } from 'react-router-dom'
 import { ThemeToggle } from '../components/ThemeToggle'
 import { useQuizStore } from '../store/quizStore'
+import { useAuthStore } from '../store/authStore'
 
 const DIFFICULTIES = [
   {
@@ -23,16 +24,26 @@ const DIFFICULTIES = [
 export function Home() {
   const navigate = useNavigate()
   const setSubject = useQuizStore((s) => s.setSubject)
+  const { email, signOut } = useAuthStore()
 
   function handleSelect(label: string) {
     setSubject(label)
     navigate('/quiz')
   }
 
+  async function handleLogout() {
+    await signOut()
+    navigate('/login')
+  }
+
   return (
     <>
-      <header style={{ justifyContent: 'flex-end' }}>
-        <ThemeToggle />
+      <header style={{ justifyContent: 'space-between' }}>
+        <span className="header-email">{email}</span>
+        <div style={{ display: 'flex', gap: '0.5rem', alignItems: 'center' }}>
+          <ThemeToggle />
+          <button className="logout-btn" onClick={handleLogout}>Sair</button>
+        </div>
       </header>
 
       <main>

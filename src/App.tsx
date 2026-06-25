@@ -1,15 +1,24 @@
+import { useEffect } from 'react'
 import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom'
 import { Home } from './pages/Home'
 import { Quiz } from './pages/Quiz'
 import { Result } from './pages/Result'
+import { Login } from './pages/Login'
+import { ProtectedRoute } from './components/ProtectedRoute'
+import { useAuthStore } from './store/authStore'
 
 export function App() {
+  const init = useAuthStore((s) => s.init)
+
+  useEffect(() => { init() }, [init])
+
   return (
     <BrowserRouter>
       <Routes>
-        <Route path="/" element={<Home />} />
-        <Route path="/quiz" element={<Quiz />} />
-        <Route path="/resultado" element={<Result />} />
+        <Route path="/login" element={<Login />} />
+        <Route path="/" element={<ProtectedRoute><Home /></ProtectedRoute>} />
+        <Route path="/quiz" element={<ProtectedRoute><Quiz /></ProtectedRoute>} />
+        <Route path="/resultado" element={<ProtectedRoute><Result /></ProtectedRoute>} />
         <Route path="*" element={<Navigate to="/" replace />} />
       </Routes>
     </BrowserRouter>
