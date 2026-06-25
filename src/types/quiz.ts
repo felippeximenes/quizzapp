@@ -29,3 +29,17 @@ export interface ApiFeedback {
   study_tips: string[]
   aws_docs_topic: string
 }
+
+export interface QuizAnswer {
+  domain: string
+  difficulty: string
+  correct: boolean
+}
+
+export interface ApiSummary {
+  encouragement: string
+  strong_areas: string[]
+  weak_areas: string[]
+  study_plan: string[]
+  next_step: string
+}

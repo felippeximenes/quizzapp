@@ -103,6 +103,24 @@ Resources:
             Path: /evaluate-answer
             Method: post
 
+  # Lambda 3: generates a personalized study summary after completing the quiz
+  GenerateSummaryFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      FunctionName: quizzapp-generate-summary
+      Handler: handler.lambda_handler
+      CodeUri: functions/generate_summary/
+      Description: Generates a personalized study plan based on quiz performance
+      Policies:
+        - !Ref BedrockInvokePolicy
+      Events:
+        Summary:
+          Type: HttpApi
+          Properties:
+            ApiId: !Ref QuizApi
+            Path: /generate-summary
+            Method: post
+
 # ── Outputs ────────────────────────────────────────────────────────────────
 Outputs:
   ApiUrl:

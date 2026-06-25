@@ -485,6 +485,85 @@ main {
   font-size: 18px;
 }
 
+/* ── AI Summary (Result page) ────────────────────── */
+
+.summary-loading {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
+  padding: 2rem 0;
+  color: var(--secondary-text-color);
+  font-size: 14px;
+  font-style: italic;
+}
+
+.summary-panel {
+  background: var(--button-bg);
+  border-radius: 12px;
+  padding: 20px;
+  margin-bottom: 16px;
+  box-shadow: var(--shadow);
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.summary-encouragement {
+  font-size: 15px;
+  color: var(--primary-text-color);
+  line-height: 1.6;
+  border-left: 4px solid var(--purple);
+  padding-left: 12px;
+}
+
+.summary-section {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.summary-section-title {
+  font-size: 12px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: var(--secondary-text-color);
+}
+
+.summary-list {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.summary-list li {
+  padding: 10px 12px;
+  border-radius: 8px;
+  font-size: 13px;
+  line-height: 1.5;
+  color: var(--primary-text-color);
+}
+
+.summary-list li.strong {
+  background: rgba(38, 215, 130, 0.12);
+  border-left: 3px solid var(--green);
+}
+
+.summary-list li.weak {
+  background: rgba(238, 84, 84, 0.10);
+  border-left: 3px solid var(--red);
+}
+
+.summary-next-step {
+  font-size: 14px;
+  font-weight: 500;
+  color: var(--purple);
+  text-align: center;
+  padding-top: 4px;
+}
+
 /* ── Desktop ──────────────────────────────────────── */
 
 @media (min-width: 1100px) {

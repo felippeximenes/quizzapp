@@ -45,6 +45,7 @@ export function Quiz() {
   const navigate = useNavigate()
   const subject = useQuizStore((s) => s.subject)
   const storeSetScore = useQuizStore((s) => s.setScore)
+  const addAnswer = useQuizStore((s) => s.addAnswer)
 
   const [currentQ, setCurrentQ] = useState(0)
   const [selected, setSelected] = useState<number | null>(null)
@@ -89,7 +90,9 @@ export function Quiz() {
     setPhase('evaluating')
 
     const correctIndex = getCorrectIndex(question.answer)
-    if (selected === correctIndex) setLocalScore((s) => s + 1)
+    const isCorrect = selected === correctIndex
+    if (isCorrect) setLocalScore((s) => s + 1)
+    addAnswer({ domain: question.domain, difficulty: question.difficulty, correct: isCorrect })
 
     try {
       const fb = await evaluateAnswer({
