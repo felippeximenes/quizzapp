@@ -32,3 +32,8 @@ venv/
 # Environment variables (contain secrets)
 .env.local
 .env.*.local
+
+# RAG documents (PDFs — large files, not tracked)
+backend/scripts/docs/
+backend/input.json
+messages.json

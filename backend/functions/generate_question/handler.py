@@ -3,6 +3,7 @@ import os
 
 import boto3
 from botocore.exceptions import ClientError
+from rag import get_context
 
 BEDROCK_REGION = os.environ.get("BEDROCK_REGION", "us-east-1")
 MODEL_ID = os.environ.get("BEDROCK_MODEL_ID", "anthropic.claude-3-haiku-20240307-v1:0")
@@ -53,7 +54,8 @@ def make_response(status: int, body: dict) -> dict:
     }
 
 
-def build_prompt(domain_key: str, difficulty: str) -> str:
+def build_prompt(domain_key: str, difficulty: str, context: str = "") -> str:
+    context_block = f"\n\n{context}\n\nBaseie a questão nos trechos acima sempre que relevante." if context else ""
     return f"""Você é um instrutor especialista em certificações AWS escrevendo questões para o exame AWS Cloud Practitioner (CLF-C02).
 
 Gere UMA questão de múltipla escolha com as seguintes especificações:
@@ -77,7 +79,7 @@ Responda APENAS com um objeto JSON — sem markdown, sem texto extra:
   "explanation": "por que a resposta correta está certa e por que cada alternativa errada está incorreta",
   "domain": "{domain_key}",
   "difficulty": "{difficulty}"
-}}"""
+}}{context_block}"""
 
 
 def lambda_handler(event: dict, _context: object) -> dict:
@@ -95,13 +97,14 @@ def lambda_handler(event: dict, _context: object) -> dict:
                 "error": "Invalid difficulty. Must be one of: easy, medium, hard"
             })
 
+        context = get_context(domain, difficulty)
         bedrock_response = bedrock.converse(
             modelId=MODEL_ID,
             system=[{"text": (
                 "Você é um especialista em certificações AWS. "
                 "Responda sempre com JSON válido apenas — sem markdown, sem comentários."
             )}],
-            messages=[{"role": "user", "content": [{"text": build_prompt(domain, difficulty)}]}],
+            messages=[{"role": "user", "content": [{"text": build_prompt(domain, difficulty, context)}]}],
             inferenceConfig={"maxTokens": 1024, "temperature": 0.7},
         )
 

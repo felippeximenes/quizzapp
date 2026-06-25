@@ -12,6 +12,8 @@ Globals:
       Variables:
         BEDROCK_REGION: !Ref BedrockRegion
         BEDROCK_MODEL_ID: !Ref BedrockModelId
+        QDRANT_URL: !Ref QdrantUrl
+        QDRANT_API_KEY: !Ref QdrantApiKey
 
 # ── Parameters ─────────────────────────────────────────────────────────────
 Parameters:
@@ -27,6 +29,17 @@ Parameters:
       Bedrock foundation model ID.
       Amazon Nova Pro is recommended: no marketplace subscription required, high quality.
       Alternatives: amazon.nova-lite-v1:0 (faster/cheaper), amazon.nova-micro-v1:0 (cheapest).
+
+  QdrantUrl:
+    Type: String
+    Default: ""
+    Description: Qdrant Cloud cluster URL for RAG document search.
+
+  QdrantApiKey:
+    Type: String
+    Default: ""
+    NoEcho: true
+    Description: Qdrant Cloud API key (sensitive).
 
 # ── Resources ──────────────────────────────────────────────────────────────
 Resources:
@@ -60,6 +73,7 @@ Resources:
               - !Sub arn:aws:bedrock:${BedrockRegion}::foundation-model/*
               - !Sub arn:aws:bedrock:*::foundation-model/*
               - arn:aws:bedrock:*:*:inference-profile/*
+              - arn:aws:bedrock:us-east-1::foundation-model/amazon.titan-embed-text-v2:0
           - Effect: Allow
             Action:
               - aws-marketplace:ViewSubscriptions
