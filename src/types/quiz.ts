@@ -43,3 +43,13 @@ export interface ApiSummary {
   study_plan: string[]
   next_step: string
 }
+
+export interface QuizHistoryItem {
+  quizId: string
+  date: string
+  score: number
+  total: number
+  pct: number
+  difficulty: string
+  domains: Record<string, { correct: number; total: number }>
+}

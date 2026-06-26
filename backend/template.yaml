@@ -14,6 +14,7 @@ Globals:
         BEDROCK_MODEL_ID: !Ref BedrockModelId
         QDRANT_URL: !Ref QdrantUrl
         QDRANT_API_KEY: !Ref QdrantApiKey
+        HISTORY_TABLE: !Ref QuizHistoryTable
 
 # ── Parameters ─────────────────────────────────────────────────────────────
 Parameters:
@@ -95,11 +96,44 @@ Resources:
         AllowOrigins:
           - "*"
         AllowMethods:
+          - GET
           - POST
           - OPTIONS
         AllowHeaders:
           - Content-Type
           - Authorization
+
+  # DynamoDB table — stores quiz history per user
+  QuizHistoryTable:
+    Type: AWS::DynamoDB::Table
+    Properties:
+      TableName: quizzapp-history
+      BillingMode: PAY_PER_REQUEST
+      AttributeDefinitions:
+        - AttributeName: userId
+          AttributeType: S
+        - AttributeName: quizId
+          AttributeType: S
+      KeySchema:
+        - AttributeName: userId
+          KeyType: HASH
+        - AttributeName: quizId
+          KeyType: RANGE
+
+  # IAM policy for DynamoDB access
+  DynamoDBPolicy:
+    Type: AWS::IAM::ManagedPolicy
+    Properties:
+      Description: Allow Lambda functions to read/write quiz history in DynamoDB
+      PolicyDocument:
+        Version: "2012-10-17"
+        Statement:
+          - Effect: Allow
+            Action:
+              - dynamodb:PutItem
+              - dynamodb:Query
+              - dynamodb:GetItem
+            Resource: !GetAtt QuizHistoryTable.Arn
 
   # Shared IAM policy: allows Lambda to invoke any Bedrock foundation model
   BedrockInvokePolicy:
@@ -160,7 +194,43 @@ Resources:
             Path: /evaluate-answer
             Method: post
 
-  # Lambda 3: generates a personalized study summary after completing the quiz
+  # Lambda 3: saves a completed quiz to DynamoDB history
+  SaveQuizFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      FunctionName: quizzapp-save-quiz
+      Handler: handler.lambda_handler
+      CodeUri: functions/save_quiz/
+      Description: Saves quiz result to DynamoDB history table
+      Policies:
+        - !Ref DynamoDBPolicy
+      Events:
+        Save:
+          Type: HttpApi
+          Properties:
+            ApiId: !Ref QuizApi
+            Path: /save-quiz
+            Method: post
+
+  # Lambda 4: returns paginated quiz history for the authenticated user
+  ListHistoryFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      FunctionName: quizzapp-list-history
+      Handler: handler.lambda_handler
+      CodeUri: functions/list_history/
+      Description: Returns quiz history for the authenticated user from DynamoDB
+      Policies:
+        - !Ref DynamoDBPolicy
+      Events:
+        List:
+          Type: HttpApi
+          Properties:
+            ApiId: !Ref QuizApi
+            Path: /history
+            Method: get
+
+  # Lambda 5: generates a personalized study summary after completing the quiz
   GenerateSummaryFunction:
     Type: AWS::Serverless::Function
     Properties:

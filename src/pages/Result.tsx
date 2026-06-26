@@ -3,7 +3,7 @@ import { useNavigate } from 'react-router-dom'
 import { ThemeToggle } from '../components/ThemeToggle'
 import { SubjectBadge } from '../components/SubjectBadge'
 import { useQuizStore } from '../store/quizStore'
-import { generateSummary } from '../services/api'
+import { generateSummary, saveQuiz } from '../services/api'
 import type { ApiSummary } from '../types/quiz'
 
 const TOTAL = 10
@@ -23,8 +23,11 @@ export function Result() {
       navigate('/')
       return
     }
-    generateSummary(score, TOTAL, answers)
-      .then(setSummary)
+    Promise.all([
+      generateSummary(score, TOTAL, answers),
+      saveQuiz(score, TOTAL, subject, answers),
+    ])
+      .then(([s]) => setSummary(s))
       .catch(() => setSummary(null))
       .finally(() => setLoading(false))
   }, []) // eslint-disable-line react-hooks/exhaustive-deps
@@ -99,9 +102,14 @@ export function Result() {
             </div>
           ) : null}
 
-          <button className="btn-action result-btn" onClick={handlePlayAgain}>
-            Jogar Novamente
-          </button>
+          <div className="result-actions">
+            <button className="btn-action result-btn" onClick={handlePlayAgain}>
+              Jogar Novamente
+            </button>
+            <button className="btn-action result-btn secondary" onClick={() => navigate('/historico')}>
+              Ver Histórico
+            </button>
+          </div>
         </div>
       </main>
     </>

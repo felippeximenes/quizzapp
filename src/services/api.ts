@@ -1,4 +1,4 @@
-import type { ApiQuestion, ApiFeedback, ApiSummary, QuizAnswer } from '../types/quiz'
+import type { ApiQuestion, ApiFeedback, ApiSummary, QuizAnswer, QuizHistoryItem } from '../types/quiz'
 import { getIdToken } from './auth'
 
 const API_URL = import.meta.env.VITE_API_URL ?? ''
@@ -52,4 +52,28 @@ export async function generateSummary(
   })
   if (!res.ok) throw new Error('Failed to generate summary')
   return res.json() as Promise<ApiSummary>
+}
+
+export async function saveQuiz(
+  score: number,
+  total: number,
+  difficulty: string,
+  answers: QuizAnswer[],
+): Promise<void> {
+  const res = await fetch(`${API_URL}/save-quiz`, {
+    method: 'POST',
+    headers: await authHeaders(),
+    body: JSON.stringify({ score, total, difficulty, answers }),
+  })
+  if (!res.ok) throw new Error('Failed to save quiz')
+}
+
+export async function listHistory(): Promise<QuizHistoryItem[]> {
+  const res = await fetch(`${API_URL}/history`, {
+    method: 'GET',
+    headers: await authHeaders(),
+  })
+  if (!res.ok) throw new Error('Failed to load history')
+  const data = await res.json() as { items: QuizHistoryItem[] }
+  return data.items
 }

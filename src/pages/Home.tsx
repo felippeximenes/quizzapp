@@ -41,6 +41,7 @@ export function Home() {
       <header style={{ justifyContent: 'space-between' }}>
         <span className="header-email">{email}</span>
         <div style={{ display: 'flex', gap: '0.5rem', alignItems: 'center' }}>
+          <button className="logout-btn" onClick={() => navigate('/historico')}>Histórico</button>
           <ThemeToggle />
           <button className="logout-btn" onClick={handleLogout}>Sair</button>
         </div>
