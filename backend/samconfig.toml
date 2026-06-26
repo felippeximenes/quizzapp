@@ -19,5 +19,9 @@ parameter_overrides = [
   "BedrockRegion=us-east-1",
   "BedrockModelId=amazon.nova-pro-v1:0",
   "QdrantUrl=https://5ce163f1-18a2-49ca-a331-c5ac2b5b54da.sa-east-1-0.aws.cloud.qdrant.io",
+  "StripeSecretKey=REPLACE_ME",
+  "StripeWebhookSecret=REPLACE_ME",
+  "StripePriceId=REPLACE_ME",
+  "FrontendUrl=https://quizzapp.vercel.app",
 ]
 image_repositories = []

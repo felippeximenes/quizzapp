@@ -1,5 +1,6 @@
 import json
 import os
+from datetime import datetime, timezone
 
 import boto3
 from botocore.exceptions import ClientError
@@ -7,8 +8,12 @@ from rag import get_context
 
 BEDROCK_REGION = os.environ.get("BEDROCK_REGION", "us-east-1")
 MODEL_ID = os.environ.get("BEDROCK_MODEL_ID", "amazon.nova-pro-v1:0")
+SUBSCRIPTIONS_TABLE = os.environ.get("SUBSCRIPTIONS_TABLE", "")
+DAILY_FREE_LIMIT = 5
 
 bedrock = boto3.client("bedrock-runtime", region_name=BEDROCK_REGION)
+_dynamodb = boto3.resource("dynamodb")
+_sub_table = _dynamodb.Table(SUBSCRIPTIONS_TABLE) if SUBSCRIPTIONS_TABLE else None
 
 # ── Per-certification domain descriptions ───────────────────────────────────
 
@@ -132,8 +137,45 @@ Responda APENAS com um objeto JSON — sem markdown, sem texto extra:
 }}{context_block}"""
 
 
+def _check_quota(event: dict) -> dict | None:
+    """Returns a 429 response if the free user has exhausted today's quota, else None."""
+    if not _sub_table:
+        return None
+    try:
+        claims = event["requestContext"]["authorizer"]["jwt"]["claims"]
+        user_id: str = claims["sub"]
+        today = datetime.now(timezone.utc).strftime("%Y-%m-%d")
+
+        sub_resp = _sub_table.get_item(Key={"userId": user_id, "sortKey": "SUBSCRIPTION"})
+        sub = (sub_resp.get("Item") or {})
+        now_ts = datetime.now(timezone.utc).timestamp()
+        is_premium = (
+            sub.get("status") == "active"
+            and int(sub.get("currentPeriodEnd", 0)) > now_ts
+        )
+        if is_premium:
+            return None
+
+        quota_resp = _sub_table.get_item(Key={"userId": user_id, "sortKey": f"QUOTA#{today}"})
+        count = int((quota_resp.get("Item") or {}).get("count", 0))
+        if count >= DAILY_FREE_LIMIT:
+            return make_response(429, {
+                "error": "quota_exceeded",
+                "plan": "free",
+                "dailyLimit": DAILY_FREE_LIMIT,
+                "quizzesToday": count,
+            })
+    except Exception as exc:
+        print(f"[quota-check] Non-fatal error: {exc}")
+    return None
+
+
 def lambda_handler(event: dict, _context: object) -> dict:
     try:
+        quota_error = _check_quota(event)
+        if quota_error:
+            return quota_error
+
         body: dict = json.loads(event.get("body") or "{}")
         domain: str = body.get("domain", "technology")
         difficulty: str = body.get("difficulty", "medium")

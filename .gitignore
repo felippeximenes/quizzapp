@@ -37,3 +37,9 @@ venv/
 backend/scripts/docs/
 backend/input.json
 messages.json
+
+# Screenshot artifacts from responsive testing
+screenshots/
+
+# Playwright test scripts (dev-only)
+*.cjs

@@ -4,10 +4,14 @@ import uuid
 from datetime import datetime, timezone
 
 import boto3
+from boto3.dynamodb.conditions import Attr  # noqa: F401
 
 TABLE_NAME = os.environ["HISTORY_TABLE"]
+SUBSCRIPTIONS_TABLE = os.environ.get("SUBSCRIPTIONS_TABLE", "")
+
 dynamodb = boto3.resource("dynamodb")
 table = dynamodb.Table(TABLE_NAME)
+_sub_table = dynamodb.Table(SUBSCRIPTIONS_TABLE) if SUBSCRIPTIONS_TABLE else None
 
 
 def _user_id(event: dict) -> str:
@@ -54,6 +58,19 @@ def lambda_handler(event, _context):
             "difficulty": difficulty,
             "domains": domains,
         })
+
+        # Increment daily free-tier quota counter
+        if _sub_table:
+            today = datetime.now(timezone.utc).strftime("%Y-%m-%d")
+            try:
+                _sub_table.update_item(
+                    Key={"userId": user_id, "sortKey": f"QUOTA#{today}"},
+                    UpdateExpression="ADD #c :one",
+                    ExpressionAttributeNames={"#c": "count"},
+                    ExpressionAttributeValues={":one": 1},
+                )
+            except Exception as quota_exc:
+                print(f"[save-quiz] Quota increment failed (non-fatal): {quota_exc}")
 
         return _cors({"saved": True, "quizId": quiz_id})
 

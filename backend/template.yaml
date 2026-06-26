@@ -1,6 +1,6 @@
 AWSTemplateFormatVersion: '2010-09-09'
 Transform: AWS::Serverless-2016-10-31
-Description: QuizzApp backend — AI-powered quiz generation for AWS CLF-C02
+Description: QuizzApp backend — AI-powered quiz generation for AWS certifications
 
 # ── Globals ────────────────────────────────────────────────────────────────
 Globals:
@@ -15,38 +15,53 @@ Globals:
         QDRANT_URL: !Ref QdrantUrl
         QDRANT_API_KEY: !Ref QdrantApiKey
         HISTORY_TABLE: !Ref QuizHistoryTable
+        SUBSCRIPTIONS_TABLE: !Ref QuizSubscriptionsTable
 
 # ── Parameters ─────────────────────────────────────────────────────────────
 Parameters:
   BedrockRegion:
     Type: String
     Default: us-east-1
-    Description: AWS region where Bedrock is enabled on your account.
 
   BedrockModelId:
     Type: String
     Default: amazon.nova-pro-v1:0
-    Description: >
-      Bedrock foundation model ID.
-      Amazon Nova Pro is recommended: no marketplace subscription required, high quality.
-      Alternatives: amazon.nova-lite-v1:0 (faster/cheaper), amazon.nova-micro-v1:0 (cheapest).
 
   QdrantUrl:
     Type: String
     Default: ""
-    Description: Qdrant Cloud cluster URL for RAG document search.
 
   QdrantApiKey:
     Type: String
     Default: ""
     NoEcho: true
-    Description: Qdrant Cloud API key (sensitive).
+
+  StripeSecretKey:
+    Type: String
+    Default: ""
+    NoEcho: true
+    Description: Stripe secret key (sk_live_... or sk_test_...).
+
+  StripeWebhookSecret:
+    Type: String
+    Default: ""
+    NoEcho: true
+    Description: Stripe webhook signing secret (whsec_...).
+
+  StripePriceId:
+    Type: String
+    Default: ""
+    Description: Stripe Price ID for the monthly subscription plan.
+
+  FrontendUrl:
+    Type: String
+    Default: "https://quizzapp-six-cyan.vercel.app"
+    Description: Frontend base URL for Stripe redirect URLs.
 
 # ── Resources ──────────────────────────────────────────────────────────────
 Resources:
 
-  # HTTP API — cheaper and simpler than REST API for this use case
-  # Cognito User Pool — handles registration, login, email verification
+  # ── Auth ──────────────────────────────────────────────────────────────────
   UserPool:
     Type: AWS::Cognito::UserPool
     Properties:
@@ -79,6 +94,7 @@ Resources:
         - ALLOW_REFRESH_TOKEN_AUTH
       PreventUserExistenceErrors: ENABLED
 
+  # ── API ───────────────────────────────────────────────────────────────────
   QuizApi:
     Type: AWS::Serverless::HttpApi
     Properties:
@@ -102,8 +118,9 @@ Resources:
         AllowHeaders:
           - Content-Type
           - Authorization
+          - Stripe-Signature
 
-  # DynamoDB table — stores quiz history per user
+  # ── DynamoDB ──────────────────────────────────────────────────────────────
   QuizHistoryTable:
     Type: AWS::DynamoDB::Table
     Properties:
@@ -120,7 +137,23 @@ Resources:
         - AttributeName: quizId
           KeyType: RANGE
 
-  # IAM policy for DynamoDB access
+  QuizSubscriptionsTable:
+    Type: AWS::DynamoDB::Table
+    Properties:
+      TableName: quizzapp-subscriptions
+      BillingMode: PAY_PER_REQUEST
+      AttributeDefinitions:
+        - AttributeName: userId
+          AttributeType: S
+        - AttributeName: sortKey
+          AttributeType: S
+      KeySchema:
+        - AttributeName: userId
+          KeyType: HASH
+        - AttributeName: sortKey
+          KeyType: RANGE
+
+  # ── IAM Policies ──────────────────────────────────────────────────────────
   DynamoDBPolicy:
     Type: AWS::IAM::ManagedPolicy
     Properties:
@@ -135,7 +168,20 @@ Resources:
               - dynamodb:GetItem
             Resource: !GetAtt QuizHistoryTable.Arn
 
-  # Shared IAM policy: allows Lambda to invoke any Bedrock foundation model
+  SubscriptionPolicy:
+    Type: AWS::IAM::ManagedPolicy
+    Properties:
+      Description: Allow Lambda functions to access the subscriptions table
+      PolicyDocument:
+        Version: "2012-10-17"
+        Statement:
+          - Effect: Allow
+            Action:
+              - dynamodb:GetItem
+              - dynamodb:PutItem
+              - dynamodb:UpdateItem
+            Resource: !GetAtt QuizSubscriptionsTable.Arn
+
   BedrockInvokePolicy:
     Type: AWS::IAM::ManagedPolicy
     Properties:
@@ -158,16 +204,19 @@ Resources:
               - aws-marketplace:Unsubscribe
             Resource: "*"
 
-  # Lambda 1: generates a CLF-C02 question via Bedrock
+  # ── Lambda Functions ───────────────────────────────────────────────────────
+
+  # 1 — generate question (with quota check)
   GenerateQuestionFunction:
     Type: AWS::Serverless::Function
     Properties:
       FunctionName: quizzapp-generate-question
       Handler: handler.lambda_handler
       CodeUri: functions/generate_question/
-      Description: Generates an AWS CLF-C02 multiple-choice question using Amazon Bedrock
+      Description: Generates an AWS certification question via Bedrock with daily quota enforcement
       Policies:
         - !Ref BedrockInvokePolicy
+        - !Ref SubscriptionPolicy
       Events:
         Generate:
           Type: HttpApi
@@ -176,14 +225,14 @@ Resources:
             Path: /generate-question
             Method: post
 
-  # Lambda 2: evaluates a submitted answer and returns AI feedback
+  # 2 — evaluate answer
   EvaluateAnswerFunction:
     Type: AWS::Serverless::Function
     Properties:
       FunctionName: quizzapp-evaluate-answer
       Handler: handler.lambda_handler
       CodeUri: functions/evaluate_answer/
-      Description: Evaluates an answer and returns personalized Bedrock feedback with study tips
+      Description: Evaluates an answer and returns personalized Bedrock feedback
       Policies:
         - !Ref BedrockInvokePolicy
       Events:
@@ -194,16 +243,17 @@ Resources:
             Path: /evaluate-answer
             Method: post
 
-  # Lambda 3: saves a completed quiz to DynamoDB history
+  # 3 — save quiz + increment daily quota
   SaveQuizFunction:
     Type: AWS::Serverless::Function
     Properties:
       FunctionName: quizzapp-save-quiz
       Handler: handler.lambda_handler
       CodeUri: functions/save_quiz/
-      Description: Saves quiz result to DynamoDB history table
+      Description: Saves quiz result to DynamoDB history and increments daily quota counter
       Policies:
         - !Ref DynamoDBPolicy
+        - !Ref SubscriptionPolicy
       Events:
         Save:
           Type: HttpApi
@@ -212,7 +262,7 @@ Resources:
             Path: /save-quiz
             Method: post
 
-  # Lambda 4: returns paginated quiz history for the authenticated user
+  # 4 — list history
   ListHistoryFunction:
     Type: AWS::Serverless::Function
     Properties:
@@ -230,7 +280,7 @@ Resources:
             Path: /history
             Method: get
 
-  # Lambda 5: generates a personalized study summary after completing the quiz
+  # 5 — generate summary
   GenerateSummaryFunction:
     Type: AWS::Serverless::Function
     Properties:
@@ -248,11 +298,75 @@ Resources:
             Path: /generate-summary
             Method: post
 
+  # 6 — get subscription status + daily quota
+  GetSubscriptionFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      FunctionName: quizzapp-get-subscription
+      Handler: handler.lambda_handler
+      CodeUri: functions/get_subscription/
+      Description: Returns current subscription plan and daily quiz quota for the user
+      Policies:
+        - !Ref SubscriptionPolicy
+      Events:
+        GetSub:
+          Type: HttpApi
+          Properties:
+            ApiId: !Ref QuizApi
+            Path: /subscription
+            Method: get
+
+  # 7 — create Stripe Checkout session
+  CreateCheckoutSessionFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      FunctionName: quizzapp-create-checkout-session
+      Handler: handler.lambda_handler
+      CodeUri: functions/create_checkout_session/
+      Description: Creates a Stripe Checkout session for monthly subscription upgrade
+      Policies:
+        - !Ref SubscriptionPolicy
+      Environment:
+        Variables:
+          STRIPE_SECRET_KEY: !Ref StripeSecretKey
+          STRIPE_PRICE_ID: !Ref StripePriceId
+          FRONTEND_URL: !Ref FrontendUrl
+      Events:
+        Checkout:
+          Type: HttpApi
+          Properties:
+            ApiId: !Ref QuizApi
+            Path: /create-checkout-session
+            Method: post
+
+  # 8 — Stripe webhook (public — no Cognito auth)
+  StripeWebhookFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      FunctionName: quizzapp-stripe-webhook
+      Handler: handler.lambda_handler
+      CodeUri: functions/stripe_webhook/
+      Description: Receives Stripe webhook events and updates subscription status in DynamoDB
+      Policies:
+        - !Ref SubscriptionPolicy
+      Environment:
+        Variables:
+          STRIPE_SECRET_KEY: !Ref StripeSecretKey
+          STRIPE_WEBHOOK_SECRET: !Ref StripeWebhookSecret
+      Events:
+        Webhook:
+          Type: HttpApi
+          Properties:
+            ApiId: !Ref QuizApi
+            Path: /stripe-webhook
+            Method: post
+            Auth:
+              Authorizer: NONE
+
 # ── Outputs ────────────────────────────────────────────────────────────────
 Outputs:
   ApiUrl:
-    Description: >
-      HTTP API base URL — paste this value into VITE_API_URL in your frontend .env.local file.
+    Description: HTTP API base URL — set as VITE_API_URL in .env.local
     Value: !Sub https://${QuizApi}.execute-api.${AWS::Region}.amazonaws.com
     Export:
       Name: QuizzAppApiUrl
@@ -265,10 +379,6 @@ Outputs:
     Description: Cognito App Client ID — set as VITE_COGNITO_CLIENT_ID in .env.local
     Value: !Ref UserPoolClient
 
-  GenerateQuestionArn:
-    Description: ARN of the generate-question Lambda function
-    Value: !GetAtt GenerateQuestionFunction.Arn
-
-  EvaluateAnswerArn:
-    Description: ARN of the evaluate-answer Lambda function
-    Value: !GetAtt EvaluateAnswerFunction.Arn
+  StripeWebhookUrl:
+    Description: Register this URL as a Stripe webhook endpoint in your Stripe Dashboard
+    Value: !Sub https://${QuizApi}.execute-api.${AWS::Region}.amazonaws.com/prod/stripe-webhook
