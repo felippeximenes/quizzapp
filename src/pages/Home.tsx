@@ -1,11 +1,13 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
-import { History, LogOut, Zap, Star, Trophy } from 'lucide-react'
+import { History, LogOut, Zap, Star, Trophy, Crown } from 'lucide-react'
 import { ThemeToggle } from '../components/ThemeToggle'
 import { useQuizStore } from '../store/quizStore'
 import { useAuthStore } from '../store/authStore'
 import { CERTIFICATIONS } from '../data/certifications'
+import { getSubscription } from '../services/api'
 import { cn } from '@/lib/utils'
+import type { SubscriptionStatus } from '../types/quiz'
 
 const DIFFICULTIES = [
   { label: 'Fácil', value: 'easy', icon: Zap, color: 'text-accent', bg: 'bg-accent/10 hover:bg-accent/20', border: 'hover:border-accent/50', desc: 'Conceitos fundamentais' },
@@ -13,11 +15,18 @@ const DIFFICULTIES = [
   { label: 'Difícil', value: 'hard', icon: Trophy, color: 'text-danger', bg: 'bg-danger/10 hover:bg-danger/20', border: 'hover:border-danger/50', desc: 'Trade-offs arquiteturais' },
 ]
 
+const DAILY_LIMIT = 5
+
 export function Home() {
   const navigate = useNavigate()
   const { setCertification, setSubject } = useQuizStore()
   const { email, signOut } = useAuthStore()
   const [selectedCert, setSelectedCert] = useState('')
+  const [sub, setSub] = useState<SubscriptionStatus | null>(null)
+
+  useEffect(() => {
+    getSubscription().then(setSub).catch(() => null)
+  }, [])
 
   async function handleLogout() {
     await signOut()
@@ -30,6 +39,9 @@ export function Home() {
     navigate('/quiz')
   }
 
+  const isPremium = sub?.plan === 'premium'
+  const quotaExhausted = !isPremium && sub !== null && (sub.quizzesRemaining ?? 1) <= 0
+
   return (
     <div className="flex min-h-svh flex-col bg-background">
       {/* Header */}
@@ -37,6 +49,25 @@ export function Home() {
         <div className="mx-auto flex max-w-2xl items-center justify-between px-4 py-3">
           <span className="truncate text-sm text-muted-foreground max-w-[180px]">{email}</span>
           <div className="flex items-center gap-2">
+            {sub !== null && (
+              <button
+                onClick={() => navigate('/assinatura')}
+                className={cn(
+                  'flex items-center gap-1.5 rounded-full px-2.5 py-1 text-xs font-semibold transition-colors',
+                  isPremium
+                    ? 'bg-primary/15 text-primary hover:bg-primary/25'
+                    : quotaExhausted
+                      ? 'bg-danger/10 text-danger hover:bg-danger/20'
+                      : 'bg-muted text-muted-foreground hover:bg-muted/80',
+                )}
+              >
+                {isPremium ? (
+                  <><Crown className="h-3 w-3" /> Premium</>
+                ) : (
+                  <><Zap className="h-3 w-3" /> {sub.quizzesRemaining ?? 0}/{DAILY_LIMIT}</>
+                )}
+              </button>
+            )}
             <button onClick={() => navigate('/historico')}
               className="flex items-center gap-1.5 rounded-md border border-border px-3 py-1.5 text-xs font-medium text-muted-foreground hover:border-primary/40 hover:text-primary transition-colors">
               <History className="h-3.5 w-3.5" />
@@ -95,31 +126,55 @@ export function Home() {
           </div>
         </section>
 
-        {/* Difficulty selection */}
+        {/* Difficulty selection or quota exhausted prompt */}
         {selectedCert && (
           <section className="space-y-3 animate-fade-in">
-            <p className="text-xs font-semibold uppercase tracking-widest text-muted-foreground">
-              2. Selecione a dificuldade
-            </p>
-            <div className="grid grid-cols-3 gap-3">
-              {DIFFICULTIES.map(({ label, icon: Icon, color, bg, border, desc }) => (
+            {quotaExhausted ? (
+              <div className="rounded-2xl border border-primary/20 bg-primary/5 p-6 text-center space-y-4">
+                <div className="mx-auto flex h-12 w-12 items-center justify-center rounded-full bg-primary/15">
+                  <Crown className="h-6 w-6 text-primary" />
+                </div>
+                <div className="space-y-1">
+                  <p className="font-sans text-base font-bold text-foreground">Limite diário atingido</p>
+                  <p className="text-sm text-muted-foreground">
+                    Você usou os {DAILY_LIMIT} quizzes gratuitos de hoje.<br />
+                    Volte amanhã ou assine o Premium para quizzes ilimitados.
+                  </p>
+                </div>
                 <button
-                  key={label}
-                  onClick={() => handleSelectDifficulty(label)}
-                  className={cn(
-                    'flex flex-col items-center gap-2 rounded-xl border border-border p-4',
-                    'transition-all duration-200 hover:shadow-md active:scale-95',
-                    bg, border,
-                  )}
+                  onClick={() => navigate('/assinatura')}
+                  className="inline-flex items-center gap-2 rounded-xl bg-primary px-5 py-2.5 font-sans text-sm font-semibold text-white hover:bg-primary-hover transition-colors"
                 >
-                  <div className={cn('rounded-lg p-2', bg)}>
-                    <Icon className={cn('h-5 w-5', color)} />
-                  </div>
-                  <span className="font-sans text-sm font-semibold text-foreground">{label}</span>
-                  <span className="text-center text-xs text-muted-foreground leading-tight">{desc}</span>
+                  <Crown className="h-4 w-4" />
+                  Ver planos
                 </button>
-              ))}
-            </div>
+              </div>
+            ) : (
+              <>
+                <p className="text-xs font-semibold uppercase tracking-widest text-muted-foreground">
+                  2. Selecione a dificuldade
+                </p>
+                <div className="grid grid-cols-3 gap-3">
+                  {DIFFICULTIES.map(({ label, icon: Icon, color, bg, border, desc }) => (
+                    <button
+                      key={label}
+                      onClick={() => handleSelectDifficulty(label)}
+                      className={cn(
+                        'flex flex-col items-center gap-2 rounded-xl border border-border p-4',
+                        'transition-all duration-200 hover:shadow-md active:scale-95',
+                        bg, border,
+                      )}
+                    >
+                      <div className={cn('rounded-lg p-2', bg)}>
+                        <Icon className={cn('h-5 w-5', color)} />
+                      </div>
+                      <span className="font-sans text-sm font-semibold text-foreground">{label}</span>
+                      <span className="text-center text-xs text-muted-foreground leading-tight">{desc}</span>
+                    </button>
+                  ))}
+                </div>
+              </>
+            )}
           </section>
         )}
       </main>

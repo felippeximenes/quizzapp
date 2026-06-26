@@ -1,4 +1,4 @@
-import type { ApiQuestion, ApiFeedback, ApiSummary, QuizAnswer, QuizHistoryItem } from '../types/quiz'
+import type { ApiQuestion, ApiFeedback, ApiSummary, QuizAnswer, QuizHistoryItem, SubscriptionStatus } from '../types/quiz'
 import { getIdToken } from './auth'
 
 const API_URL = import.meta.env.VITE_API_URL ?? ''
@@ -81,4 +81,23 @@ export async function listHistory(): Promise<QuizHistoryItem[]> {
   if (!res.ok) throw new Error('Failed to load history')
   const data = await res.json() as { items: QuizHistoryItem[] }
   return data.items
+}
+
+export async function getSubscription(): Promise<SubscriptionStatus> {
+  const res = await fetch(`${API_URL}/subscription`, {
+    method: 'GET',
+    headers: await authHeaders(),
+  })
+  if (!res.ok) throw new Error('Failed to get subscription')
+  return res.json() as Promise<SubscriptionStatus>
+}
+
+export async function createCheckoutSession(): Promise<string> {
+  const res = await fetch(`${API_URL}/create-checkout-session`, {
+    method: 'POST',
+    headers: await authHeaders(),
+  })
+  if (!res.ok) throw new Error('Failed to create checkout session')
+  const data = await res.json() as { checkoutUrl: string }
+  return data.checkoutUrl
 }

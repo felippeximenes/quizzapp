@@ -53,3 +53,13 @@ export interface QuizHistoryItem {
   difficulty: string
   domains: Record<string, { correct: number; total: number }>
 }
+
+export interface SubscriptionStatus {
+  plan: 'free' | 'premium'
+  quizzesRemaining: number | null
+  quizzesToday: number
+  dailyLimit?: number
+  status?: string
+  currentPeriodEnd?: number
+  stripeSubscriptionId?: string
+}

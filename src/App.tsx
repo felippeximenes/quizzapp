@@ -5,6 +5,7 @@ import { Quiz } from './pages/Quiz'
 import { Result } from './pages/Result'
 import { History } from './pages/History'
 import { Login } from './pages/Login'
+import { Subscription } from './pages/Subscription'
 import { ProtectedRoute } from './components/ProtectedRoute'
 import { useAuthStore } from './store/authStore'
 
@@ -21,6 +22,7 @@ export function App() {
         <Route path="/quiz" element={<ProtectedRoute><Quiz /></ProtectedRoute>} />
         <Route path="/resultado" element={<ProtectedRoute><Result /></ProtectedRoute>} />
         <Route path="/historico" element={<ProtectedRoute><History /></ProtectedRoute>} />
+        <Route path="/assinatura" element={<ProtectedRoute><Subscription /></ProtectedRoute>} />
         <Route path="*" element={<Navigate to="/" replace />} />
       </Routes>
     </BrowserRouter>
