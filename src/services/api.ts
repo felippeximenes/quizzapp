@@ -11,11 +11,15 @@ async function authHeaders(): Promise<Record<string, string>> {
   }
 }
 
-export async function generateQuestion(domain: string, difficulty: string): Promise<ApiQuestion> {
+export async function generateQuestion(
+  domain: string,
+  difficulty: string,
+  certification = 'clf-c02',
+): Promise<ApiQuestion> {
   const res = await fetch(`${API_URL}/generate-question`, {
     method: 'POST',
     headers: await authHeaders(),
-    body: JSON.stringify({ domain, difficulty }),
+    body: JSON.stringify({ domain, difficulty, certification }),
   })
   if (!res.ok) throw new Error('Failed to generate question')
   return res.json() as Promise<ApiQuestion>
@@ -28,6 +32,7 @@ interface EvaluatePayload {
   selected_answer: string
   domain: string
   explanation: string
+  certification?: string
 }
 
 export async function evaluateAnswer(payload: EvaluatePayload): Promise<ApiFeedback> {

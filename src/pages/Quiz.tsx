@@ -5,10 +5,10 @@ import { SubjectBadge } from '../components/SubjectBadge'
 import { ProgressBar } from '../components/ProgressBar'
 import { useQuizStore } from '../store/quizStore'
 import { generateQuestion, evaluateAnswer } from '../services/api'
+import { getCertification } from '../data/certifications'
 import type { ApiQuestion, ApiFeedback } from '../types/quiz'
 
 const TOTAL = 10
-const DOMAINS = ['cloud_concepts', 'security', 'technology', 'billing']
 const LETTERS = ['A', 'B', 'C', 'D']
 
 const DIFFICULTY_MAP: Record<string, string> = {
@@ -44,6 +44,7 @@ function getOptionClass(
 export function Quiz() {
   const navigate = useNavigate()
   const subject = useQuizStore((s) => s.subject)
+  const certification = useQuizStore((s) => s.certification)
   const storeSetScore = useQuizStore((s) => s.setScore)
   const addAnswer = useQuizStore((s) => s.addAnswer)
 
@@ -55,6 +56,7 @@ export function Quiz() {
   const [feedback, setFeedback] = useState<ApiFeedback | null>(null)
   const [error, setError] = useState<string | null>(null)
 
+  const cert = getCertification(certification)
   const difficulty = DIFFICULTY_MAP[subject] ?? 'easy'
   const isLastQuestion = currentQ === TOTAL - 1
 
@@ -66,19 +68,19 @@ export function Quiz() {
       setFeedback(null)
       setError(null)
       try {
-        const domain = DOMAINS[index % DOMAINS.length]
-        const q = await generateQuestion(domain, difficulty)
+        const domain = cert.domains[index % cert.domains.length]
+        const q = await generateQuestion(domain, difficulty, certification)
         setQuestion(q)
         setPhase('selecting')
       } catch {
         setError('Erro ao gerar pergunta. Tente novamente.')
       }
     },
-    [difficulty],
+    [difficulty, certification, cert.domains],
   )
 
   useEffect(() => {
-    if (!subject) {
+    if (!subject || !certification) {
       navigate('/')
       return
     }
@@ -102,6 +104,7 @@ export function Quiz() {
         selected_answer: LETTERS[selected],
         domain: question.domain,
         explanation: question.explanation,
+        certification,
       })
       setFeedback(fb)
     } catch {
@@ -154,7 +157,7 @@ export function Quiz() {
   return (
     <>
       <header>
-        <SubjectBadge subject={subject} />
+        <SubjectBadge subject={`${cert.code} · ${subject}`} />
         <ThemeToggle />
       </header>
 
