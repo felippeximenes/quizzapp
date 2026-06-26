@@ -82,9 +82,9 @@ export function Home() {
               >
                 <div className="h-3 w-3 rounded-full flex-shrink-0" style={{ background: cert.color }} />
                 <div className="flex-1 min-w-0">
-                  <div className="flex items-center gap-2">
-                    <span className="font-sans text-sm font-bold" style={{ color: cert.color }}>{cert.code}</span>
-                    <span className="font-sans text-sm font-semibold text-foreground">{cert.name}</span>
+                  <div className="flex items-center gap-2 min-w-0">
+                    <span className="font-sans text-sm font-bold whitespace-nowrap" style={{ color: cert.color }}>{cert.code}</span>
+                    <span className="font-sans text-sm font-semibold text-foreground truncate">{cert.name}</span>
                   </div>
                 </div>
                 <span className="rounded-full border border-border px-2.5 py-0.5 text-xs text-muted-foreground flex-shrink-0">
