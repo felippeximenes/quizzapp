@@ -1,3 +1,5 @@
+import { cn } from '@/lib/utils'
+
 const iconMap: Record<string, string> = {
   fácil: '/assets/images/icon-fácil.svg',
   médio: '/assets/images/icon-médio.svg',
@@ -5,9 +7,9 @@ const iconMap: Record<string, string> = {
 }
 
 const bgMap: Record<string, string> = {
-  fácil: 'var(--bg-facil)',
-  médio: 'var(--bg-medio)',
-  difícil: 'var(--bg-dificil)',
+  fácil: 'bg-accent/15',
+  médio: 'bg-warning/15',
+  difícil: 'bg-danger/15',
 }
 
 interface SubjectBadgeProps {
@@ -18,11 +20,11 @@ export function SubjectBadge({ subject }: SubjectBadgeProps) {
   const key = subject.toLowerCase()
 
   return (
-    <div className="assunto">
-      <div className="assunto_icone" style={{ background: bgMap[key] }}>
-        <img src={iconMap[key]} alt={`Ícone ${subject}`} />
+    <div className="flex items-center gap-2.5">
+      <div className={cn('flex h-9 w-9 items-center justify-center rounded-lg', bgMap[key] ?? 'bg-muted')}>
+        <img src={iconMap[key]} alt={`Ícone ${subject}`} className="h-5 w-5" />
       </div>
-      <h1>{subject}</h1>
+      <span className="font-sans text-base font-semibold text-foreground">{subject}</span>
     </div>
   )
 }

@@ -6,7 +6,7 @@ export function useTheme() {
   )
 
   useEffect(() => {
-    document.documentElement.classList.toggle('escuro', isDark)
+    document.documentElement.classList.toggle('dark', isDark)
   }, [isDark])
 
   const toggle = () => {
