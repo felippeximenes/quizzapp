@@ -187,7 +187,7 @@ export function Subscription() {
                     {isPremium && <span className="rounded-full bg-primary/15 px-2 py-0.5 text-xs font-semibold text-primary">Atual</span>}
                   </div>
                   <div className="flex items-end gap-1">
-                    <p className="font-sans text-2xl font-extrabold text-foreground">R$ 19</p>
+                    <p className="font-sans text-2xl font-extrabold text-foreground">R$ 9,90</p>
                     <p className="mb-0.5 text-xs text-muted-foreground">/mês</p>
                   </div>
                 </div>
@@ -212,7 +212,7 @@ export function Subscription() {
                 {checkoutLoading ? (
                   <><RefreshCw className="h-4 w-4 animate-spin" /> Abrindo checkout...</>
                 ) : (
-                  <><Crown className="h-4 w-4" /> Assinar Premium — R$ 19/mês</>
+                  <><Crown className="h-4 w-4" /> Assinar Premium — R$ 9,90/mês</>
                 )}
               </button>
             )}
