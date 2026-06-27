@@ -339,7 +339,29 @@ Resources:
             Path: /create-checkout-session
             Method: post
 
-  # 8b — Cancel subscription
+  # 8b — Customer portal
+  CustomerPortalFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      FunctionName: quizzapp-customer-portal
+      Handler: handler.lambda_handler
+      CodeUri: functions/customer_portal/
+      Description: Creates a Stripe Billing Portal session for the authenticated user
+      Policies:
+        - !Ref SubscriptionPolicy
+      Environment:
+        Variables:
+          STRIPE_SECRET_KEY: !Ref StripeSecretKey
+          FRONTEND_URL: !Ref FrontendUrl
+      Events:
+        Portal:
+          Type: HttpApi
+          Properties:
+            ApiId: !Ref QuizApi
+            Path: /customer-portal
+            Method: post
+
+  # 8c — Cancel subscription
   CancelSubscriptionFunction:
     Type: AWS::Serverless::Function
     Properties:

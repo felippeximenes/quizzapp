@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react'
 import { useNavigate, useSearchParams } from 'react-router-dom'
 import { ArrowLeft, Zap, Crown, Check, X, RefreshCw } from 'lucide-react'
 import { ThemeToggle } from '../components/ThemeToggle'
-import { getSubscription, createCheckoutSession, cancelSubscription } from '../services/api'
+import { getSubscription, createCheckoutSession, cancelSubscription, createPortalSession } from '../services/api'
 import { cn } from '@/lib/utils'
 import type { SubscriptionStatus } from '../types/quiz'
 
@@ -41,6 +41,7 @@ export function Subscription() {
   const [loading, setLoading] = useState(true)
   const [checkoutLoading, setCheckoutLoading] = useState(false)
   const [cancelLoading, setCancelLoading] = useState(false)
+  const [portalLoading, setPortalLoading] = useState(false)
   const [cancelConfirm, setCancelConfirm] = useState(false)
   const [error, setError] = useState('')
 
@@ -92,6 +93,18 @@ export function Subscription() {
     } catch {
       setError('Não foi possível iniciar o checkout. Tente novamente.')
       setCheckoutLoading(false)
+    }
+  }
+
+  async function handlePortal() {
+    setPortalLoading(true)
+    setError('')
+    try {
+      const url = await createPortalSession()
+      window.location.href = url
+    } catch {
+      setError('Não foi possível abrir o portal. Tente novamente.')
+      setPortalLoading(false)
     }
   }
 
@@ -217,6 +230,21 @@ export function Subscription() {
                 </div>
               )}
             </div>
+
+            {/* Portal button for premium users */}
+            {isPremium && (
+              <button
+                onClick={handlePortal}
+                disabled={portalLoading}
+                className="w-full flex items-center justify-center gap-2 rounded-xl border border-border py-3 font-sans text-sm font-medium text-muted-foreground hover:border-primary/40 hover:text-primary disabled:opacity-50 transition-colors"
+              >
+                {portalLoading ? (
+                  <><RefreshCw className="h-4 w-4 animate-spin" /> Abrindo portal...</>
+                ) : (
+                  'Gerenciar cartão e faturas'
+                )}
+              </button>
+            )}
 
             {/* Plan comparison */}
             <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">

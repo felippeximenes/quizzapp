@@ -92,6 +92,16 @@ export async function getSubscription(): Promise<SubscriptionStatus> {
   return res.json() as Promise<SubscriptionStatus>
 }
 
+export async function createPortalSession(): Promise<string> {
+  const res = await fetch(`${API_URL}/customer-portal`, {
+    method: 'POST',
+    headers: await authHeaders(),
+  })
+  if (!res.ok) throw new Error('Failed to create portal session')
+  const data = await res.json() as { portalUrl: string }
+  return data.portalUrl
+}
+
 export async function cancelSubscription(): Promise<void> {
   const res = await fetch(`${API_URL}/cancel-subscription`, {
     method: 'POST',
