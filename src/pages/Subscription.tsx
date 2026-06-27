@@ -30,6 +30,9 @@ function formatDate(ts: number) {
   })
 }
 
+const POLL_INTERVAL = 2000
+const POLL_MAX = 10
+
 export function Subscription() {
   const navigate = useNavigate()
   const [params] = useSearchParams()
@@ -43,11 +46,40 @@ export function Subscription() {
   const canceled = params.get('canceled') === 'true'
 
   useEffect(() => {
-    getSubscription()
-      .then(setSub)
-      .catch(() => setError('Não foi possível carregar o status da assinatura.'))
-      .finally(() => setLoading(false))
-  }, [])
+    // Clean up URL params without triggering a navigation
+    if (success || canceled) {
+      window.history.replaceState({}, '', '/assinatura')
+    }
+
+    if (success) {
+      // Poll until webhook updates DynamoDB (up to POLL_MAX attempts)
+      let attempts = 0
+      const poll = async () => {
+        try {
+          const data = await getSubscription()
+          setSub(data)
+          if (data.plan === 'premium' || attempts >= POLL_MAX) {
+            setLoading(false)
+            return
+          }
+        } catch {
+          if (attempts >= POLL_MAX) {
+            setError('Não foi possível carregar o status da assinatura.')
+            setLoading(false)
+            return
+          }
+        }
+        attempts++
+        setTimeout(poll, POLL_INTERVAL)
+      }
+      poll()
+    } else {
+      getSubscription()
+        .then(setSub)
+        .catch(() => setError('Não foi possível carregar o status da assinatura.'))
+        .finally(() => setLoading(false))
+    }
+  }, []) // eslint-disable-line react-hooks/exhaustive-deps
 
   async function handleUpgrade() {
     setCheckoutLoading(true)
