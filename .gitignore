@@ -41,5 +41,8 @@ messages.json
 # Screenshot artifacts from responsive testing
 screenshots/
 
+# SAM deploy config — contains Stripe secret keys
+backend/samconfig.toml
+
 # Playwright test scripts (dev-only)
 *.cjs
