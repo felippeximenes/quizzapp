@@ -339,7 +339,28 @@ Resources:
             Path: /create-checkout-session
             Method: post
 
-  # 8 — Stripe webhook (public — no Cognito auth)
+  # 8b — Cancel subscription
+  CancelSubscriptionFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      FunctionName: quizzapp-cancel-subscription
+      Handler: handler.lambda_handler
+      CodeUri: functions/cancel_subscription/
+      Description: Sets Stripe subscription to cancel at period end
+      Policies:
+        - !Ref SubscriptionPolicy
+      Environment:
+        Variables:
+          STRIPE_SECRET_KEY: !Ref StripeSecretKey
+      Events:
+        Cancel:
+          Type: HttpApi
+          Properties:
+            ApiId: !Ref QuizApi
+            Path: /cancel-subscription
+            Method: post
+
+  # 8c — Stripe webhook (public — no Cognito auth)
   StripeWebhookFunction:
     Type: AWS::Serverless::Function
     Properties:

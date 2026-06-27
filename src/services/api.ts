@@ -92,6 +92,14 @@ export async function getSubscription(): Promise<SubscriptionStatus> {
   return res.json() as Promise<SubscriptionStatus>
 }
 
+export async function cancelSubscription(): Promise<void> {
+  const res = await fetch(`${API_URL}/cancel-subscription`, {
+    method: 'POST',
+    headers: await authHeaders(),
+  })
+  if (!res.ok) throw new Error('Failed to cancel subscription')
+}
+
 export async function createCheckoutSession(): Promise<string> {
   const res = await fetch(`${API_URL}/create-checkout-session`, {
     method: 'POST',

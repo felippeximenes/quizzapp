@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react'
 import { useNavigate, useSearchParams } from 'react-router-dom'
 import { ArrowLeft, Zap, Crown, Check, X, RefreshCw } from 'lucide-react'
 import { ThemeToggle } from '../components/ThemeToggle'
-import { getSubscription, createCheckoutSession } from '../services/api'
+import { getSubscription, createCheckoutSession, cancelSubscription } from '../services/api'
 import { cn } from '@/lib/utils'
 import type { SubscriptionStatus } from '../types/quiz'
 
@@ -40,6 +40,8 @@ export function Subscription() {
   const [sub, setSub] = useState<SubscriptionStatus | null>(null)
   const [loading, setLoading] = useState(true)
   const [checkoutLoading, setCheckoutLoading] = useState(false)
+  const [cancelLoading, setCancelLoading] = useState(false)
+  const [cancelConfirm, setCancelConfirm] = useState(false)
   const [error, setError] = useState('')
 
   const success = params.get('success') === 'true'
@@ -90,6 +92,21 @@ export function Subscription() {
     } catch {
       setError('Não foi possível iniciar o checkout. Tente novamente.')
       setCheckoutLoading(false)
+    }
+  }
+
+  async function handleCancel() {
+    setCancelLoading(true)
+    setError('')
+    try {
+      await cancelSubscription()
+      const updated = await getSubscription()
+      setSub(updated)
+      setCancelConfirm(false)
+    } catch {
+      setError('Não foi possível cancelar a assinatura. Tente novamente.')
+    } finally {
+      setCancelLoading(false)
     }
   }
 
@@ -173,10 +190,31 @@ export function Subscription() {
                   </p>
                 )}
               </div>
-              {isPremium && (
-                <span className="rounded-full bg-primary px-3 py-1 text-xs font-semibold text-white flex-shrink-0">
-                  ATIVO
-                </span>
+              {isPremium && !cancelConfirm && (
+                <button
+                  onClick={() => setCancelConfirm(true)}
+                  className="rounded-full border border-danger/30 px-3 py-1 text-xs font-medium text-danger hover:bg-danger/10 transition-colors flex-shrink-0"
+                >
+                  Cancelar
+                </button>
+              )}
+              {isPremium && cancelConfirm && (
+                <div className="flex items-center gap-2 flex-shrink-0">
+                  <span className="text-xs text-muted-foreground">Confirmar?</span>
+                  <button
+                    onClick={handleCancel}
+                    disabled={cancelLoading}
+                    className="rounded-full bg-danger px-3 py-1 text-xs font-semibold text-white hover:bg-danger/80 disabled:opacity-50 transition-colors"
+                  >
+                    {cancelLoading ? 'Cancelando...' : 'Sim'}
+                  </button>
+                  <button
+                    onClick={() => setCancelConfirm(false)}
+                    className="rounded-full border border-border px-3 py-1 text-xs font-medium text-muted-foreground hover:border-primary/40 transition-colors"
+                  >
+                    Não
+                  </button>
+                </div>
               )}
             </div>
 
