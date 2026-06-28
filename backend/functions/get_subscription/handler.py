@@ -1,6 +1,7 @@
 import json
 import os
 from datetime import datetime, timezone
+from decimal import Decimal
 
 import boto3
 
@@ -18,7 +19,7 @@ def _user_id(event: dict) -> str:
 
 
 def _cors(body: dict, status: int = 200) -> dict:
-    return {"statusCode": status, "headers": CORS, "body": json.dumps(body)}
+    return {"statusCode": status, "headers": CORS, "body": json.dumps(body, default=lambda o: int(o) if isinstance(o, Decimal) else str(o))}
 
 
 def lambda_handler(event: dict, _context: object) -> dict:
