@@ -38,8 +38,8 @@ backend/scripts/docs/
 backend/input.json
 messages.json
 
-# Screenshot artifacts from responsive testing
-screenshots/
+# Screenshot artifacts from responsive testing (keep numbered screens for README)
+# screenshots/
 
 # SAM deploy config — contains Stripe secret keys
 backend/samconfig.toml
