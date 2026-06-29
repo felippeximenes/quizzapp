@@ -56,6 +56,28 @@
   }
 }
 
+/* Flashcard 3D flip */
+.flashcard-scene {
+  perspective: 1400px;
+}
+.flashcard-card {
+  position: relative;
+  transform-style: preserve-3d;
+  transition: transform 0.55s cubic-bezier(0.4, 0, 0.2, 1);
+}
+.flashcard-card.flipped {
+  transform: rotateY(180deg);
+}
+.flashcard-face {
+  backface-visibility: hidden;
+  -webkit-backface-visibility: hidden;
+}
+.flashcard-back {
+  position: absolute;
+  inset: 0;
+  transform: rotateY(180deg);
+}
+
 @keyframes confetti-fall {
   0%   { transform: translateY(-30px) rotate(0deg);   opacity: 1; }
   80%  { opacity: 1; }
