@@ -59,7 +59,7 @@ def lambda_handler(event: dict, _context: object) -> dict:
             customer=customer_id,
             mode="subscription",
             line_items=[{"price": STRIPE_PRICE_ID, "quantity": 1}],
-            success_url=f"{FRONTEND_URL}/assinatura?success=true&session_id={{CHECKOUT_SESSION_ID}}",
+            success_url=f"{FRONTEND_URL}/pagamento-sucesso",
             cancel_url=f"{FRONTEND_URL}/assinatura?canceled=true",
             metadata={"userId": user_id},
             allow_promotion_codes=True,
