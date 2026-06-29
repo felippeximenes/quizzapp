@@ -7,6 +7,7 @@ import { History } from './pages/History'
 import { Login } from './pages/Login'
 import { Landing } from './pages/Landing'
 import { Subscription } from './pages/Subscription'
+import { PaymentSuccess } from './pages/PaymentSuccess'
 import { ProtectedRoute } from './components/ProtectedRoute'
 import { useAuthStore } from './store/authStore'
 
@@ -25,6 +26,7 @@ export function App() {
         <Route path="/resultado" element={<ProtectedRoute><Result /></ProtectedRoute>} />
         <Route path="/historico" element={<ProtectedRoute><History /></ProtectedRoute>} />
         <Route path="/assinatura" element={<ProtectedRoute><Subscription /></ProtectedRoute>} />
+        <Route path="/pagamento-sucesso" element={<ProtectedRoute><PaymentSuccess /></ProtectedRoute>} />
         <Route path="*" element={<Navigate to="/app" replace />} />
       </Routes>
     </BrowserRouter>
