@@ -40,6 +40,10 @@ function formatShortDate(iso: string) {
   return new Date(iso).toLocaleDateString('pt-BR', { day: '2-digit', month: '2-digit' })
 }
 
+function toTitleCase(s: string) {
+  return s.replace(/_/g, ' ').replace(/\b\w/g, c => c.toUpperCase())
+}
+
 interface ScoreTooltipProps { active?: boolean; payload?: Array<{ value: number }>; label?: string }
 function ScoreTooltip({ active, payload, label }: ScoreTooltipProps) {
   if (!active || !payload?.length) return null
@@ -107,7 +111,7 @@ export function History() {
     })
     return Object.entries(agg)
       .map(([domain, stats]) => ({
-        domain: domain.replace(/_/g, ' '),
+        domain: toTitleCase(domain),
         pct: stats.total > 0 ? Math.round((stats.correct / stats.total) * 100) : 0,
         correct: stats.correct,
         total: stats.total,
@@ -227,11 +231,11 @@ export function History() {
             </div>
 
             {/* Charts 2 + 3 side by side on md+ */}
-            <div className="grid gap-4 md:grid-cols-2">
+            <div className="grid gap-4 md:grid-cols-3">
 
               {/* Chart 2 — Domain performance */}
               {domainData.length > 0 && (
-                <div className="rounded-xl border border-border bg-card p-4 space-y-3">
+                <div className="md:col-span-2 rounded-xl border border-border bg-card p-4 space-y-3">
                   <h3 className="font-sans text-sm font-semibold text-foreground">Desempenho por domínio</h3>
                   <ResponsiveContainer width="100%" height={Math.max(160, domainData.length * 36)}>
                     <BarChart data={domainData} layout="vertical" margin={{ top: 0, right: 24, left: 0, bottom: 0 }}>
@@ -249,7 +253,7 @@ export function History() {
               )}
 
               {/* Chart 3 — Difficulty distribution */}
-              <div className="rounded-xl border border-border bg-card p-4 space-y-3">
+              <div className={cn('rounded-xl border border-border bg-card p-4 space-y-3', domainData.length === 0 && 'md:col-span-3')}>
                 <h3 className="font-sans text-sm font-semibold text-foreground">Por dificuldade</h3>
                 <div className="space-y-3">
                   {diffStats.map(({ label, bg, text, border, count, avg }) => (
@@ -302,7 +306,7 @@ export function History() {
                           key={d}
                           className="rounded-md border border-border bg-muted/50 px-2 py-0.5 text-xs text-muted-foreground"
                         >
-                          {d.replace(/_/g, ' ')}: {v.correct}/{v.total}
+                          {toTitleCase(d)}: {v.correct}/{v.total}
                         </span>
                       ))}
                     </div>

@@ -1,14 +1,14 @@
 import { useState, useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
-import { History, LogOut, Zap, Star, Trophy, Crown } from 'lucide-react'
+import { History, LogOut, Zap, Star, Trophy, Crown, Flame } from 'lucide-react'
 import { ThemeToggle } from '../components/ThemeToggle'
 import { Logo } from '../components/Logo'
 import { useQuizStore } from '../store/quizStore'
 import { useAuthStore } from '../store/authStore'
 import { CERTIFICATIONS } from '../data/certifications'
-import { getSubscription } from '../services/api'
+import { getSubscription, listHistory } from '../services/api'
 import { cn } from '@/lib/utils'
-import type { SubscriptionStatus } from '../types/quiz'
+import type { SubscriptionStatus, QuizHistoryItem } from '../types/quiz'
 
 const DIFFICULTIES = [
   { label: 'Fácil', value: 'easy', icon: Zap, color: 'text-accent', bg: 'bg-accent/10 hover:bg-accent/20', border: 'hover:border-accent/50', desc: 'Conceitos fundamentais' },
@@ -18,15 +18,60 @@ const DIFFICULTIES = [
 
 const DAILY_LIMIT = 5
 
+function pad(n: number) { return String(n).padStart(2, '0') }
+function dateStr(d: Date) { return `${d.getFullYear()}-${pad(d.getMonth() + 1)}-${pad(d.getDate())}` }
+
+function calcStreak(items: QuizHistoryItem[]): number {
+  if (!items.length) return 0
+  const days = [...new Set(items.map(i => i.date.slice(0, 10)))].sort().reverse()
+  const cursor = new Date()
+  let streak = 0
+  for (const day of days) {
+    if (day === dateStr(cursor)) {
+      streak++
+      cursor.setDate(cursor.getDate() - 1)
+    } else break
+  }
+  return streak
+}
+
+function toTitleCase(s: string) {
+  return s.replace(/_/g, ' ').replace(/\b\w/g, c => c.toUpperCase())
+}
+
+function weakestDomain(items: QuizHistoryItem[]): string {
+  const agg: Record<string, { correct: number; total: number }> = {}
+  items.forEach(item =>
+    Object.entries(item.domains).forEach(([d, stats]) => {
+      if (!agg[d]) agg[d] = { correct: 0, total: 0 }
+      agg[d].correct += stats.correct
+      agg[d].total += stats.total
+    })
+  )
+  const entries = Object.entries(agg).filter(([, s]) => s.total > 0)
+  if (!entries.length) return '—'
+  return toTitleCase(
+    entries.reduce((w, c) =>
+      c[1].correct / c[1].total < w[1].correct / w[1].total ? c : w
+    )[0]
+  )
+}
+
 export function Home() {
   const navigate = useNavigate()
   const { setCertification, setSubject } = useQuizStore()
-  const { signOut } = useAuthStore()
+  const { email, signOut } = useAuthStore()
   const [selectedCert, setSelectedCert] = useState('')
   const [sub, setSub] = useState<SubscriptionStatus | null>(null)
+  const [history, setHistory] = useState<QuizHistoryItem[]>([])
+  const [historyLoading, setHistoryLoading] = useState(true)
 
   useEffect(() => {
     getSubscription().then(setSub).catch(() => null)
+    listHistory()
+      .then(setHistory)
+      .catch(() => {})
+      .finally(() => setHistoryLoading(false))
   }, [])
 
   async function handleLogout() {
@@ -42,6 +87,19 @@ export function Home() {
 
   const isPremium = sub?.plan === 'premium'
   const quotaExhausted = !isPremium && sub !== null && (sub.quizzesRemaining ?? 1) <= 0
+
+  const name = email?.split('@')[0] ?? 'estudante'
+  const streak = calcStreak(history)
+  const avgPct = history.length ? Math.round(history.reduce((s, i) => s + i.pct, 0) / history.length) : 0
+  const bestScore = history.length ? Math.max(...history.map(i => i.pct)) : 0
+  const weak = weakestDomain(history)
+
+  const metrics = [
+    { label: 'Quizzes feitos', value: String(history.length) },
+    { label: 'Média geral', value: `${avgPct}%` },
+    { label: 'Melhor score', value: `${bestScore}%` },
+    { label: 'Ponto fraco', value: weak, compact: true },
+  ]
 
   return (
     <div className="flex min-h-svh flex-col bg-background">
@@ -69,14 +127,18 @@ export function Home() {
                 )}
               </button>
             )}
-            <button onClick={() => navigate('/historico')}
-              className="flex items-center gap-1.5 rounded-md border border-border px-3 py-1.5 text-xs font-medium text-muted-foreground hover:border-primary/40 hover:text-primary transition-colors">
+            <button
+              onClick={() => navigate('/historico')}
+              className="flex items-center gap-1.5 rounded-md border border-border px-3 py-1.5 text-xs font-medium text-muted-foreground hover:border-primary/40 hover:text-primary transition-colors"
+            >
               <History className="h-3.5 w-3.5" />
               Histórico
             </button>
             <ThemeToggle />
-            <button onClick={handleLogout}
-              className="flex items-center gap-1.5 rounded-md border border-border px-3 py-1.5 text-xs font-medium text-muted-foreground hover:border-danger/40 hover:text-danger transition-colors">
+            <button
+              onClick={handleLogout}
+              className="flex items-center gap-1.5 rounded-md border border-border px-3 py-1.5 text-xs font-medium text-muted-foreground hover:border-danger/40 hover:text-danger transition-colors"
+            >
               <LogOut className="h-3.5 w-3.5" />
               Sair
             </button>
@@ -85,13 +147,51 @@ export function Home() {
       </header>
 
       {/* Main */}
-      <main className="mx-auto w-full max-w-2xl flex-1 space-y-8 px-4 py-8">
-        <div className="space-y-1">
-          <h1 className="font-sans text-2xl font-bold text-foreground">
-            Prepare-se para sua<br />
-            <span className="text-primary">Certificação AWS</span>
-          </h1>
-          <p className="text-sm text-muted-foreground">Questões geradas por IA com base em documentação oficial</p>
+      <main className="mx-auto w-full max-w-2xl flex-1 space-y-6 px-4 py-6">
+
+        {/* Welcome dashboard */}
+        <div className="rounded-2xl border border-border bg-card p-5 space-y-4">
+          <div className="flex items-start justify-between gap-3">
+            <div>
+              <h1 className="font-sans text-xl font-bold text-foreground">
+                Olá, {name}! 👋
+              </h1>
+              {streak > 0 ? (
+                <div className="mt-1 flex items-center gap-1.5">
+                  <Flame className="h-4 w-4 text-orange-500" />
+                  <span className="text-sm font-semibold text-orange-500">
+                    {streak} {streak === 1 ? 'dia' : 'dias'} em sequência
+                  </span>
+                </div>
+              ) : (
+                <p className="mt-1 text-sm text-muted-foreground">
+                  Comece hoje sua sequência de estudos!
+                </p>
+              )}
+            </div>
+          </div>
+
+          <div className="grid grid-cols-2 gap-3 sm:grid-cols-4">
+            {historyLoading
+              ? Array.from({ length: 4 }).map((_, i) => (
+                  <div key={i} className="rounded-xl border border-border bg-background p-3 space-y-2">
+                    <div className="skeleton h-7 w-12 rounded" />
+                    <div className="skeleton h-3 w-16 rounded" />
+                  </div>
+                ))
+              : metrics.map(({ label, value, compact }) => (
+                  <div key={label} className="rounded-xl border border-border bg-background p-3">
+                    <p className={cn(
+                      'font-sans font-extrabold text-primary truncate',
+                      compact ? 'text-sm leading-snug' : 'text-2xl',
+                    )}>
+                      {value}
+                    </p>
+                    <p className="mt-0.5 text-xs text-muted-foreground">{label}</p>
+                  </div>
+                ))
+            }
+          </div>
         </div>
 
         {/* Cert selection */}
@@ -127,7 +227,7 @@ export function Home() {
           </div>
         </section>
 
-        {/* Difficulty selection or quota exhausted prompt */}
+        {/* Difficulty selection or quota exhausted */}
         {selectedCert && (
           <section className="space-y-3 animate-fade-in">
             {quotaExhausted ? (
