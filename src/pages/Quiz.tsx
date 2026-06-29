@@ -46,7 +46,7 @@ export function Quiz() {
   }, [difficulty, certification, cert.domains])
 
   useEffect(() => {
-    if (!subject || !certification) { navigate('/'); return }
+    if (!subject || !certification) { navigate('/app'); return }
     fetchQuestion(0)
   }, []) // eslint-disable-line react-hooks/exhaustive-deps
 

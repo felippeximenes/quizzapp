@@ -38,7 +38,7 @@ export function Login() {
     try {
       await login(email, password)
       setEmail(email)
-      navigate('/')
+      navigate('/app')
     } catch (err: unknown) {
       setError(err instanceof Error ? err.message : 'Erro ao entrar')
     } finally { setLoading(false) }
@@ -62,7 +62,7 @@ export function Login() {
       await confirmEmail(email, code)
       await login(email, password)
       setEmail(email)
-      navigate('/')
+      navigate('/app')
     } catch (err: unknown) {
       setError(err instanceof Error ? err.message : 'Código inválido')
     } finally { setLoading(false) }

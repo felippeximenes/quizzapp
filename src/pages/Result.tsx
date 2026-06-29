@@ -21,7 +21,7 @@ export function Result() {
   const [loading, setLoading] = useState(true)
 
   useEffect(() => {
-    if (!subject) { navigate('/'); return }
+    if (!subject) { navigate('/app'); return }
     Promise.all([
       generateSummary(score, TOTAL, answers),
       saveQuiz(score, TOTAL, subject, answers),
@@ -33,7 +33,7 @@ export function Result() {
 
   if (!subject) return null
 
-  function handlePlayAgain() { reset(); navigate('/') }
+  function handlePlayAgain() { reset(); navigate('/app') }
 
   const pct = Math.round((score / TOTAL) * 100)
   const scoreColor = pct >= 80 ? 'text-success' : pct >= 50 ? 'text-warning' : 'text-danger'

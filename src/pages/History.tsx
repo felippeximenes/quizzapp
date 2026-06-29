@@ -139,7 +139,7 @@ export function History() {
       <header className="sticky top-0 z-10 border-b border-border bg-card/80 backdrop-blur-sm">
         <div className="mx-auto flex max-w-2xl items-center justify-between px-4 py-3">
           <button
-            onClick={() => navigate('/')}
+            onClick={() => navigate('/app')}
             className="flex items-center gap-1.5 rounded-md border border-border px-3 py-1.5 text-xs font-medium text-muted-foreground hover:border-primary/40 hover:text-primary transition-colors"
           >
             <ArrowLeft className="h-3.5 w-3.5" />
@@ -173,7 +173,7 @@ export function History() {
           <div className="flex flex-col items-center justify-center gap-3 py-16 text-center">
             <p className="text-sm text-muted-foreground">Você ainda não completou nenhum quiz.</p>
             <button
-              onClick={() => navigate('/')}
+              onClick={() => navigate('/app')}
               className="rounded-xl bg-primary px-5 py-2.5 text-sm font-semibold text-white hover:bg-primary-hover transition-colors"
             >
               Fazer primeiro quiz

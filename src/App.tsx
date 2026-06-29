@@ -18,14 +18,14 @@ export function App() {
   return (
     <BrowserRouter>
       <Routes>
-        <Route path="/landing" element={<Landing />} />
+        <Route path="/" element={<Landing />} />
         <Route path="/login" element={<Login />} />
-        <Route path="/" element={<ProtectedRoute><Home /></ProtectedRoute>} />
+        <Route path="/app" element={<ProtectedRoute><Home /></ProtectedRoute>} />
         <Route path="/quiz" element={<ProtectedRoute><Quiz /></ProtectedRoute>} />
         <Route path="/resultado" element={<ProtectedRoute><Result /></ProtectedRoute>} />
         <Route path="/historico" element={<ProtectedRoute><History /></ProtectedRoute>} />
         <Route path="/assinatura" element={<ProtectedRoute><Subscription /></ProtectedRoute>} />
-        <Route path="*" element={<Navigate to="/" replace />} />
+        <Route path="*" element={<Navigate to="/app" replace />} />
       </Routes>
     </BrowserRouter>
   )

@@ -25,8 +25,8 @@ export function Logo({ size = 'md', variant = 'dark', className }: LogoProps) {
         xmlns="http://www.w3.org/2000/svg"
         aria-hidden="true"
       >
-        <rect x="0" y="14.4" width="6" height="9.6" rx="3" fill="#3B39E8" />
-        <rect x="9" y="7.2" width="6" height="16.8" rx="3" fill="#3B39E8" />
+        <rect x="0" y="14.4" width="6" height="9.6" rx="3" fill={variant === 'light' ? 'rgba(255,255,255,0.7)' : '#3B39E8'} />
+        <rect x="9" y="7.2" width="6" height="16.8" rx="3" fill={variant === 'light' ? 'rgba(255,255,255,0.9)' : '#3B39E8'} />
         <rect x="18" y="0" width="6" height="24" rx="3" fill="#22C55E" />
       </svg>
       <span
