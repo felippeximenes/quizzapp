@@ -21,6 +21,7 @@ export async function resendCode(email: string) {
 }
 
 export async function login(email: string, password: string) {
+  try { await signOut() } catch {}
   return signIn({ username: email, password })
 }
 
