@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
-import { History, LogOut, Zap, Star, Trophy, Crown, Flame } from 'lucide-react'
+import { History, LogOut, Zap, Star, Trophy, Crown, Flame, Target, Layers, BookOpen } from 'lucide-react'
 import { ThemeToggle } from '../components/ThemeToggle'
 import { Logo } from '../components/Logo'
 import { useQuizStore } from '../store/quizStore'
@@ -193,6 +193,33 @@ export function Home() {
             }
           </div>
         </div>
+
+        {/* Feature shortcuts */}
+        <section className="space-y-3">
+          <p className="text-xs font-semibold uppercase tracking-widest text-muted-foreground">Ferramentas</p>
+          <div className="grid grid-cols-3 gap-3">
+            {[
+              { label: 'Simulado', icon: Target, path: '/simulado', premium: true, desc: '65 questões' },
+              { label: 'Flashcards', icon: Layers, path: '/flashcards', premium: false, desc: 'Revisão rápida' },
+              { label: 'Plano de estudos', icon: BookOpen, path: '/plano-de-estudos', premium: true, desc: 'Personalizado' },
+            ].map(({ label, icon: Icon, path, premium, desc }) => (
+              <button
+                key={path}
+                onClick={() => navigate(path)}
+                className="flex flex-col items-center gap-1.5 rounded-xl border border-border bg-card p-3.5 text-center transition-all duration-150 hover:border-primary/40 hover:shadow-sm"
+              >
+                <div className="relative">
+                  <Icon className="h-5 w-5 text-primary" />
+                  {premium && (
+                    <Crown className="absolute -top-1.5 -right-2 h-3 w-3 text-warning" />
+                  )}
+                </div>
+                <span className="font-sans text-xs font-semibold text-foreground leading-tight">{label}</span>
+                <span className="text-[10px] text-muted-foreground">{desc}</span>
+              </button>
+            ))}
+          </div>
+        </section>
 
         {/* Cert selection */}
         <section className="space-y-3">
