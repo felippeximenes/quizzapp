@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { History, LogOut, Zap, Star, Trophy, Crown } from 'lucide-react'
 import { ThemeToggle } from '../components/ThemeToggle'
+import { Logo } from '../components/Logo'
 import { useQuizStore } from '../store/quizStore'
 import { useAuthStore } from '../store/authStore'
 import { CERTIFICATIONS } from '../data/certifications'
@@ -20,7 +21,7 @@ const DAILY_LIMIT = 5
 export function Home() {
   const navigate = useNavigate()
   const { setCertification, setSubject } = useQuizStore()
-  const { email, signOut } = useAuthStore()
+  const { signOut } = useAuthStore()
   const [selectedCert, setSelectedCert] = useState('')
   const [sub, setSub] = useState<SubscriptionStatus | null>(null)
 
@@ -47,7 +48,7 @@ export function Home() {
       {/* Header */}
       <header className="sticky top-0 z-10 border-b border-border bg-card/80 backdrop-blur-sm">
         <div className="mx-auto flex max-w-2xl items-center justify-between px-4 py-3">
-          <span className="truncate text-sm text-muted-foreground max-w-[180px]">{email}</span>
+          <Logo size="sm" />
           <div className="flex items-center gap-2">
             {sub !== null && (
               <button

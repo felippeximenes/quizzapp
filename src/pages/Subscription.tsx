@@ -145,7 +145,7 @@ export function Subscription() {
           <h2 className="font-sans text-2xl font-bold text-foreground">
             Minha <span className="text-primary">Assinatura</span>
           </h2>
-          <p className="text-sm text-muted-foreground">Gerencie seu plano e acesso ao QuizApp</p>
+          <p className="text-sm text-muted-foreground">Gerencie seu plano e acesso à Certara</p>
         </div>
 
         {/* Success / canceled alerts */}

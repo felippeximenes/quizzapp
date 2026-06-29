@@ -4,35 +4,37 @@
 
 @layer base {
   :root {
-    --background: 60 5% 97%;
-    --foreground: 240 6% 7%;
-    --card: 240 5% 96%;
-    --card-foreground: 240 6% 7%;
+    /* Certara light mode — base: #F8F9FF, card: #ECEEFF, border: #C7D2FE */
+    --background: 240 100% 99%;
+    --foreground: 244 47% 20%;
+    --card: 234 100% 96%;
+    --card-foreground: 244 47% 20%;
     --surface: 0 0% 100%;
-    --muted: 240 5% 96%;
-    --muted-foreground: 240 4% 46%;
-    --border: 240 6% 90%;
-    --input: 240 6% 90%;
-    --ring: 262 83% 58%;
-    --secondary: 240 5% 96%;
-    --secondary-foreground: 240 6% 10%;
+    --muted: 234 100% 96%;
+    --muted-foreground: 220 9% 46%;
+    --border: 228 96% 89%;
+    --input: 228 96% 89%;
+    --ring: 241 79% 57%;
+    --secondary: 234 100% 96%;
+    --secondary-foreground: 244 47% 20%;
     --destructive: 0 84% 60%;
     --destructive-foreground: 0 0% 100%;
   }
 
   .dark {
-    --background: 250 42% 8%;
-    --foreground: 210 17% 98%;
-    --card: 252 38% 14%;
-    --card-foreground: 210 17% 98%;
-    --surface: 251 40% 11%;
-    --muted: 252 38% 16%;
+    /* Certara dark mode — base: #0F0E2E, card: #1A1840, border: #312E81 */
+    --background: 242 53% 12%;
+    --foreground: 240 100% 99%;
+    --card: 243 46% 17%;
+    --card-foreground: 240 100% 99%;
+    --surface: 242 50% 14%;
+    --muted: 243 40% 20%;
     --muted-foreground: 215 14% 65%;
-    --border: 252 28% 25%;
-    --input: 252 28% 25%;
-    --ring: 258 87% 76%;
-    --secondary: 252 38% 16%;
-    --secondary-foreground: 210 17% 98%;
+    --border: 242 48% 34%;
+    --input: 242 48% 34%;
+    --ring: 241 79% 65%;
+    --secondary: 243 40% 20%;
+    --secondary-foreground: 240 100% 99%;
     --destructive: 0 72% 71%;
     --destructive-foreground: 240 6% 7%;
   }

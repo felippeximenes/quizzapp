@@ -1,4 +1,4 @@
-# AWS QuizApp
+# Certara
 
 Plataforma de preparação para certificações AWS com questões geradas por Inteligência Artificial, feedback personalizado e sistema de assinatura Premium.
 
